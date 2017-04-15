@@ -1,0 +1,1132 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[10pt]{article}
+ 
+\usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+      
+    
+    
+
+    % Pygments definitions 
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0} 
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{definition}
+\newtheorem{ex}[theorem]{Example}
+\newtheorem{exer}[theorem]{Exercise}
+\newtheorem{refer}[theorem]{Reflection}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+\newtheorem{caut}[theorem]{CAUTION}
+  
+\usepackage{setspace}
+    %package gives us the ability to set the line spacing.
+   
+
+
+    %packages control the ``style'' or look of the document. These come in the form of 
+    %files ***.sty. The package ``homework'' above was created by me. The other packages
+    %are very common for this type of document. You can google to learn more about what
+    %they can do, and what options they give you. For example
+% * <moller@gmail.com> 2017-03-06T03:37:04.525Z:
+%
+% ^.
+  
+\usepackage{setspace}
+    %package gives us the ability to set the line spacing.
+\def\R{\mathbb{ R}}
+\def\Z{\mathbb{ Z}}
+\def\Q{\mathbb{ Q}}
+\def\S{\mathbb{ S}}
+\def\I{\mathbb{ I}}
+\def\N{\mathbb{N}}
+\def\ra{\Rightarrow}
+\def\lra{\Leftrightarrow}
+\def\la{\Leftarrow}
+\def\ul{\underline}
+
+\DeclareMathOperator{\ord}{ord}   
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mr}[1]{\mathrm{#1}}
+\newcommand{\ith}[1]{$i^{\mr{th}}$}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\rd}[1]{\color{red}{#1}}
+\newcommand{\bl}[1]{\color{blue}{#1}}
+
+    %these set up environments for listing things. The numbering is automatic.
+
+    
+\newenvironment{solution}[1][Solution]{\begin{doublespace}\textbf{#1.}\quad }{\ \rule{0.5em}{0.5em}\end{doublespace}}
+    %this is the environment for writing solutions. double spaced, with an end of proof
+    %box at the end
+    
+\title{Elementary Number Theory: A Brief Introduction \\
+From Math 592 - Cryptography @ Eastern Michigan University}
+\author{David Moll \\
+dmoll@emich.edu}
+    %above is the information that goes in the title. Notice the { and }. 
+    %the double slashes \\ mean start a new line.
+
+
+\begin{document} %this means end the preamble (stuff controling the styles above and
+%start the content of the document. We can make adjustments as we go. For example,
+\maketitle %make the title according to the styles outlined in homework.sty
+\vskip .25in %skip a bit before we start the regular text.
+\pagebreak
+\thispagestyle{empty} %no need to number first page.
+
+\section{Introduction}
+
+The driving reason for putting together this set of notes is to provide a reference for myself that covers the basic facts and theorems of Number Theory, especially as they relate to the study of cryptography.  With that in mind, I am only going to give a cursory treatment to some of the more basic theorems that form the underlying basis for the field, and focus primarily on those sections which have been less obvious to me personally - both now and in the past.
+
+\section{Divisibility}
+\subsection{Definition}
+Let $\Z = \{\ldots, -2, -1, 0, 1, 2,\ldots \}$ be the \emph{integers}. Suppose we have integers $a$ and $b$, with $b\neq0$.  Then, we say that the integer $a$ \emph{divides} the integer $b$, written as $a|b$
+if there exists an integer $k$ such that $b=ak$.
+\subsection{Some rules about divisibility}
+\begin{enumerate}
+\item $a|b$ and $b|c \to a|c$
+\item $a|b$ and $b|a \to a=\pm b$
+\item $a|b$ and $a|c \to a|(b+c)$ and $a|(b-c)$
+\end{enumerate}
+\subsubsection{Proof of Transitivity of Divisibility}
+\begin{proof}
+\begin{align*}
+&a|b \text{ implies that } \exists k \in \Z \text{ such that } b=a \cdot k (a,b \ne 0) & (\text{by definition})\\
+&b|c \text{ implies } \exists l \in \Z \text{ such that } c=b\cdot l\\
+&c = b\cdot l\\
+&c = a\cdot (k\cdot l) & (\text{because } b=a \cdot k)\\
+&a|c & (\text{by the definition of divisibility, because } k \cdot l \in \Z)\\
+\end{align*}
+\end{proof}
+\pagebreak
+\section{Common Divisors}
+A common divisor of two integers $a$ and $b$ is a positive integer that divides them both.  Formally, we would say that $n$ is a common divisor of $a$ and $b$ if $\exists n \in \Z, n > 0$ where $n|a$ and $n|b$.
+\subsection{Greatest Common Divisor}
+The \underline{Greatest Common Divisor}, or gcd of $a$ and $b$ is the largest integer that divides both $a$ and $b$.
+\begin{definition}\label{gcd}
+Suppose $a$,$b$ are both not 0.\\
+$d = \gcd(a,b)$ is the greatest d contained in the set of divisors $\{d\text{ : }d|a\text{, }d|b\text{ and }d > 0\}$
+\end{definition}
+\begin{proof}
+\text{We want to show that this set of divisors has a maximum value - which is the gcd.}
+\begin{align*}
+& a = d\cdot k \text{ and } b = d\cdot l \text{ for some } k,l \in \Z\\
+&|a| = |d|\cdot|k| \text{ and } |b|=|d|\cdot|l|\\
+&\text{Suppose } a \neq 0 \text{, then } |d| \leq |k|\cdot|d|=|a|\\
+&\text{Thus, the set is bounded above (by a) and has a max value.}
+\end{align*}
+\end{proof}
+\textbf{Note} We can see that if $a,b\neq0$, $\gcd(a,b)\leq \min(|a|,|b|)$
+\subsection{GCD Examples}
+\subsubsection{Zero Case}
+\begin{enumerate}
+\item $\gcd(0,3)=3$
+\item $\gcd(0,0)=0$ \text{(we define this for convenience)}
+\end{enumerate}
+\subsubsection{Useful Examples}
+\begin{enumerate}
+\item $\gcd(9,3)=3$
+\item $\gcd(13,7)=1$ 
+\item $\gcd(100,25)=5$ 
+\item $\gcd(1432,12488)=8$ 
+\item $\gcd(1432,12489)=1$ 
+\end{enumerate}
+\section{The Division Algorithm}
+\subsection{This is simply a formal statement of the method for long division that we learned "long" ago.}
+The division algorithm is important, because it is the building block for methods and algorithms in later sections.  Repeated application of the division algorithm is at the heart of the Euclidean Algorithm, which will give us a method for finding the GCD of two integers.
+\begin{definition}
+Let $a$ and $b$ be positive integers.  Then there are unique non-negative integers $q$ and $r$ such that:
+\begin{align*}
+a =q\cdot b + r \text{ and } 0 \leq r < b\\
+\end{align*}
+\end{definition}
+\subsection{Proof of the Division Algorithm}
+Our goal here is to show that $q$ and $r$ are unique for the above equation and that $r$ satisfies the inequality.
+\begin{proof}
+Define $\mathbf{X} = \{ a-bq : q\in\Z \text{ and } a-bq \geq 0\}$\\
+We can see that $\mb{X}$ is non-empty, since $\exists q\in\Z$ such that $a \geq bq$\\
+And $\mb{X}\subseteq\N_0$.  In particular, it is bounded below, and contains a least element, $r$.\\
+$\therefore r = a-bq$ for some $q\in\Z$\\
+Note:  We know that $r\geq0$, because $r\in\mb{X}\subseteq\N_0$\\
+\newline
+Now we want to examine the possibility that $r\geq b$
+\begin{align*}
+0 &\leq r - b &(\text{Move both terms to one side})\\
+0 &\leq (a-bq) - b &(\text{From above, }r = a-bq)\\
+0 &\leq a-b(q+1) &(\text{Which is a member of }\mb{X}\text{ as it is of the form }a-bq)\\
+\end{align*}
+We can see that $a-b(q+1) < r$, which contradicts the minimality of r.\\
+$\therefore r < b$\\
+To show that $r$ and $q$ are unique, suppose the following:\\
+$a=bq' + r'$ and $0 \leq r' < b$
+\begin{align*}
+bq + r &= bq' + r' &(\text{We assume that these equations are equal})\\
+b(q-q') &= r'-r\\
+b\cdot |q'-q| &= |r'-r| &(\text{We can take the absolute value to simplify our lives here}\\
+b > |r'-r| &= b\cdot |q'-q| &(\text{Since } b > r)\\
+1 > |q'-q|\geq& 0
+\end{align*}
+$\therefore q'-q = 0$ and $r'-r = 0$, so q and r are unique. 
+\end{proof}
+
+
+
+
+\section{Integer Linear Combinations}
+\begin{definition}
+An integer $m$ is an \textbf{integer linear combination} of two integers $a$ and $b$ if:
+$$m = ax + by$$
+for some pair of integers $x$ and $y$.
+\end{definition}
+Essentially, this is a one dimensional vector.  We'll define $\mb{V}$ = $\{ax + by : x,y \in \Z\}$ as the set of all integer linear combinations.  We will note the two closure properties:
+
+\subsection{$m,m'\in \mb{V} \ra m+m' \in \mb{v}$}
+\subsection{$m\in \mb{V} \text{ and } r\in\Z \ra r\cdot m \in \mb{V}$}
+
+And move on, as there isn't much more to say about these, except that we will use them in Bezout's Theorem.
+\pagebreak
+\section{Bezout's Theorem}
+Bezout's Theorem basically states than the GCD of two integers $a$ and $b$ can be represented as a linear combination of integers.  This is a useful fact that allows us to derive rules about how gcds behave algebraically, and is crucial in proving some later theorems.
+\begin{theorem}\label{Bezout's Theorem}
+Let $a$,$b\in\Z$ with at least one of $a$ and $b\neq0$.  We will define $\mb{V}^+=\mb{V}\cap\N$, that is to say that $\mb{V}^+$ is the set of all positive linear integer combinations, so that $\mb{V}^+\neq0$, and it contains a minimal element $\gamma$.\\
+We define $\gamma = \gcd(a,b)$
+\end{theorem}
+
+\begin{proof}\label{Bezout}
+Suppose $a\neq 0$ Then $|a|=\pm a \in \mb{V}^+$\\
+Likewise, if $b\neq 0$ Then $|b|=\pm b \in \mb{V}^+$\\
+So we know that $\mb{V}^+\neq0$.  By the Least Integer Principle, $\mb{V}^+$ contains a minimal element $\gamma$.  Since $\gamma \in \mb{V}^+$, we know that $\gamma = ax_0 + by_0$ for some $x_0,y_0 \in \Z$.  If d is a common divisor of $a$ and $b$, then $d|\gamma$.  Given the case where $d=\gcd(a,b)$, we have that $\gcd(a,b)|\gamma$, which tells us that $\gcd(a,b) \leq \gamma$.\\
+Now we want to show that $\gamma$ is a common divisor of $a$ and $b$, which will allow us to say that $\gamma$ is less than or equal to the $\gcd(a,b)$, which when combined with the result we just derived will allow us to say definitively that $\gamma = \gcd(a,b)$.\\
+We start with the division algorithm and write $a = q\gamma + r$ for $0 \leq r < \gamma$.\\
+Solving for $r$ gives us $r = a-q\gamma$\\
+Since $a,\gamma \in \mb{V}^+$, we must have that $r\in \mb{V}^+$, but the result from \textbf{5.1} and \textbf{5.2}.  As before, the possibility of $r>0$ would contradict the minimality of $\gamma$.  $\therefore r=0$ or $\gamma|a$.\\
+We can repeat the above with $b$ instead of $a$ to show that $\gamma|b$.  Thus, $\gamma$ is a common divisor and we can say that $\gcd(a,b)\geq \gamma$.
+$\therefore \gcd(a,b) = \gamma$
+\end{proof}
+
+\section{An Aside on GCDs and Divisibility}
+Now that we have some tools, we can define some identities and relations for how relatively prime integers interact with each other with respect to their divisibility.
+\begin{lemma}
+Suppose $a$ and $b$ are relatively prime $(\gcd(a,b)=1)$, and that $a|bc$.  Then $a|c$.  (Given $a,b \in \Z, a,b \neq 0$).
+\end{lemma}
+\begin{proof}
+\begin{align*}
+1 &= ax + by \text{  for some $x,y \in \Z$} &(\text{By Bezout's theorem})\\
+c &= acx + bcy &(\text{multiply both sides by $c$})\\
+c &= acx + aky &(\text{Since $a|bc \ra bc = ak$})
+\end{align*}
+And we can see that $a|acx$ and $a|aky$, $\therefore a|c$
+\end{proof}
+
+\begin{lemma}
+Suppose $a,b \in \Z$ and they are not both 0.  If $d$ is a common divisor of $a$ and $b$, then $d|\gcd(a,b)$.
+\end{lemma}
+\begin{proof}
+By Bezout's theorem, $$\gcd(a,b) = ax + by \text{ for some $x,y \in \Z$}$$
+Since $d|a$ and $d|b$, we see that $d$ divides the right side of the above equation, so it must also divide the left side of the above equation, which gives us our result that $d|\gcd(a,b)$.
+\end{proof}
+\pagebreak
+\begin{lemma}
+Suppose $a$ and $b$ are relatively prime.  If $a|c$ and $b|c$ then $ab|c$.
+\end{lemma}
+\begin{proof}
+\begin{align*}
+1 &= ax + by \text{  for some $x,y \in \Z$} &(\text{By Bezout's theorem})\\
+c &= acx + bcy &(\text{multiply both sides by $c$})\\
+a|c &\ra ak = c \text{ for some } k \in \Z &(\text{Definition of divisibility}\\
+b|c &\ra b\ell = c \text{ for some } \ell \in \Z\\
+c &= ab\ell x + abky &(\text{Substituting in})\\
+c &= ab(lx + ky) &(\text{Note that $lx + ky$ is just an integer})\\
+\therefore ab|c
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+Suppose $c$ is a positive divisor of both $a$ and $b$.  Then $\gcd(a,b) = c \cdot \gcd(\frac{a}{c}, \frac{b}{c})$.
+\end{lemma}
+This Lemma deserves a comment - it is basically saying that we can extract a factor from the two integers we are taking the GCD of.  This will be a useful trick for later when we want to compute the GCD quickly.
+\begin{proof}
+We can define $\gcd(a,b) = ax + by$ for some $x,y \in \Z$.  Now, we can divide everything by $c$, and we know that we still have integers.  Our equation now looks like
+\begin{align*}
+\frac{1}{c} \gcd(a,b) &= \frac{a}{c} x + \frac{b}{c} y\\
+\frac{a}{c} x + \frac{b}{c} y &\geq \gcd(\frac{a}{c},\frac{b}{c})  &(\text{By Bezout's Theorem})\\
+\frac{1}{c} \gcd(a,b) &\geq \gcd(\frac{a}{c},\frac{b}{c}) \\
+\gcd(a,b) &\geq c \cdot \gcd(\frac{a}{c},\frac{b}{c}) &(\text{Multiply both sides by $c$})
+\end{align*}
+Here we're using one of our standard techniques for proving gcd identities - we work at it from both sides to show that the equations we want are both greater than AND less than each other, so they must be equal.  Now we're going to work on showing the "less than" portion.\\
+\begin{align*}
+c \cdot \gcd(\frac{a}{c},\frac{b}{c}) &= c \cdot (\frac{a}{c} x' + \frac{b}{c} y') &(\text{for some $x',y' \in \Z$})\\
+c \cdot \gcd(\frac{a}{c},\frac{b}{c}) &= ax' + by'\\
+ax' + by' &\geq \gcd(a,b)   &(\text{By Bezout's Theorem})\\
+c \cdot \gcd(\frac{a}{c},\frac{b}{c}) &\geq \gcd(a,b) 
+\end{align*}
+So now we have shown $c \cdot \gcd(\frac{a}{c},\frac{b}{c}) \geq \gcd(a,b)$ and $\gcd(a,b) \geq c \cdot \gcd(\frac{a}{c},\frac{b}{c})$.\\
+
+$\therefore \gcd(a,b) = c \cdot \gcd(\frac{a}{c}, \frac{b}{c})$.
+
+\end{proof}
+
+\section{Euclidean Algorithm}
+The Euclidean algorithm makes repeated use of the division algorithm, shifting $q$ and $r$ over at each step until $r=0$, at which point $q$ is the gcd of $a$ and $b$.  Let's write this out explicitly:
+\subsection*{A method for calculating $\gcd(a,b)$}
+\begin{enumerate}
+\item $r_{0} = q_1 * r_1 + r_{2}$
+\item $r_{1} = q_2 * r_2 + r_{3}$
+\item ...
+\item $r_{n-2} = q_{n-1} * r_{n-1} + r_n$
+\item $r_{n-1} = q_n * r_n + r_{n+1}$
+\end{enumerate}
+At each state we are decreasing the value of $r_i$ such that $0\leq r_{i+1} < r_i$, so at some point $r_{n+1}=0$.  Which gives us our result that $r_n = \gcd(a,b)$ and we see that $r_n$ can be expressed as a linear combination of a and b.
+
+Why does this work?  Look at the last step - $r_{n-1} = q_n * r_n + 0$, which implies that $r_n|r_{n-1}$.  And then the previous step implies that $r_{n-1}|r_{n-2}$.  This repeats all the way up to $r_0$, and by the transitive property of divisibility we see that $r_n$ is a common divisor of $r_1$ and $r_0$, which correspond to $a$ and $b$, $\therefore r_n \leq \gcd(a,b)$.
+Likewise, since $a = r_0$ and $b = r_1$, then $\gcd(a,b)|r_0$ and $\gcd(a,b)|r_1$, which gives us\\
+\begin{enumerate}
+\item $r_{2} = r_{0} - q_1 * r_1 \ra \gcd(a,b)|r_2$ because $\gcd(a,b)$ divides both terms on the right side of the equation 
+\item $r_{3} = r_{1} - q_2 * r_2 \ra \gcd(a,b)|r_3$
+\item ...
+\item $r_{n} = r_{n-2} - q_{n-1} * r_{n-1} \ra \gcd(a,b)|r_n$
+\end{enumerate}
+Which tells us that $r_n\geq\gcd(a,b)$, where each row in the above sequence follows from the transitive property of divisibility.  $\therefore r_n = \gcd(a,b)$
+\subsection{Examples of using the Euclidean Algorithm}
+$$a = 756, b = 45$$
+$$756 = 16\cdot 45 + 36$$
+$$45 = 1\cdot 36 + 9$$
+$$36 = 4\cdot 9 + 0$$
+
+Thus when $r_{n+1} = 0$ we see than $r_n = 9$, so we know that $\gcd(756,45)=9$.
+\subsection{What's the Linear Integer Combination?}
+We can build back up from the last statement of the above example to get a linear integer combination for the gcd.
+$$9 = 45 - 1\cdot 36$$
+$$9 = 45 - 1\cdot(756-16\cdot 45)$$
+$$9 = 17\cdot 45 - 1\cdot 756$$
+Breaking out our calculators, we see that this is $765-756 = 9$.  So we have our linear integer combination of the form $\gcd(a,b) = ax + by$, where in this particular case $x=17$ and $y=-1$.
+
+\section{Extended Euclidean Algorithm}
+If we have multiple steps in our process of finding the $\gcd$ through Euclid's Algorithm, it would be cumbersome to do the back substitution so that we could derive the integer linear combination of $ax + by = \gcd(a,b)$.  Instead, we can use matrix multiplication to find the coefficients for Bezout's Theorem.
+\subsection{Using matrix multiplication to find coefficients for Bezout’s Theorem}
+Define $Mq$ = $\left[
+\begin{array}{cc}
+0 & 1 \\
+1 & -q\\
+\end{array}
+\right]$
+We know that we can use matrix multiplication to solve a series of linear equations, which is what we are doing when we are finding the coefficients for Bezout's Theorem.  As such, starting with the knowledge that $gcd(a,b) = r_n$, we have:
+$\left[\begin{array}{c}r_{n-1}\\r_n\\\end{array}\right] = Mq_{n-1} \cdot Mq_{n-2} \cdot \ldots \cdot Mq_1 \left[\begin{array}{c}r_0\\r_1\\\end{array}\right]$\\
+
+Performing all of the multiplication gives us the coeffients $x$ and $y$ as the bottom row of the resulting 2x2 matrix, since when all of the computations are finished, the bottom row works out to $r_n = x\cdot r_0 + y\cdot r_1$.
+
+Let's do one example.
+Find the a linear integer combination for the $\gcd(123,277)$
+\begin{enumerate}
+\item $277 = 2\cdot 123 + 31$
+\item $123 = 3\cdot 31 + 30$
+\item $31 = 1\cdot 31 + 1$
+\item $30 = 30\cdot 1 + 0$
+\end{enumerate}
+So we see that the $\gcd(123,277)=1$.
+Now let's find $x$ and $y$ such that $123x + 277y = 1$.  We'll use matrix multiplication.  We need to solve:
+\begin{itemize}
+\item $\left[\begin{array}{c}30\\1\\\end{array}\right] = $
+$\left[
+\begin{array}{cc}
+0 & 1 \\
+1 & -1\\
+\end{array}
+\right]$
+$\left[
+\begin{array}{cc}
+0 & 1 \\
+1 & -3\\
+\end{array}
+\right]$
+$\left[
+\begin{array}{cc}
+0 & 1 \\
+1 & -2\\
+\end{array}
+\right]$
+$\left[\begin{array}{c}277\\123\\\end{array}\right]$
+\item Working out the multiplication gives us:
+\item $\left[\begin{array}{c}30\\1\\\end{array}\right] = $
+$\left[
+\begin{array}{cc}
+-3 & 7 \\
+4 & -9\\
+\end{array}
+\right]$
+$\left[\begin{array}{c}277\\123\\\end{array}\right]$
+\end{itemize}
+Taking the bottom row we see that $1 = 4\cdot 277 + (-9)\cdot 123$, which is our solution.
+See the appendix for python code that will perform this matrix multiplication.  The nice thing about finding the gcd and coefficients this way is that because we're using matrix multiplication the algorithm uses constant memory.\footnote{Python code bezout.py taking from Dr. J Ramanatha's course website http://people.emich.edu/jramanath/docs/math409-592w17/bezout.py}
+
+\section{Congruences (a very useful form of myopia)}
+\subsection{What are congruences?}
+We talk about congruences modulo $n$.  These are actually Equivalence Classes mod $n$, but we won't dive into that right now.  First, let's define a congruence.
+\begin{definition}
+Given the set of integers $\Z$, choose a specific $b$ in the set and divide it by $n$.\\
+By the division algorithm, this gives us $b = qn + r$, where $r = 0, 1, 2, \ldots, n-1$.\\
+We can rewrite this as $b-r = qn$
+Which is really saying that the difference between $b$ and $r$ is always an integer multiple of $n$.  Hence we write: $$ b\equiv r mod n$$
+And we say that $b$ is equivalent to $r mod n$.
+\end{definition}
+\pagebreak
+\section{Equivalence classes mod n}
+We know that a congruence mod n is an equivalence relation on $\mathbb{Z}$.  For a particular $\Z$ modulo $n$, we write $\Z_n$, if we were to choose $n=5$ we would write $Z_5$, and call it "$\Z \mod 5$".  $Z_5$ is a set of equivalence classes, and we will denote these equivalence classes by underlining them.  So we can say:
+$$ Z_5 = \{\underline{0}\,\underline{1},\underline{2},\underline{3},\underline{4}\} $$
+and in particular,
+$$\underline{0} = \{\ldots,-10,-5,0,5,10,\ldots\}$$
+$$\underline{1} = \{\ldots,-9,-4,0,1,6,\ldots\}$$
+$$\underline{2} = \{\ldots,-8,-3,0,2,7,\ldots\}$$
+$$\underline{3} = \{\ldots,-7,-2,0,3,8,\ldots\}$$
+$$\underline{4} = \{\ldots,-6,-1,0,4,9,\ldots\}$$
+We can see that each element of $\underline{1}$ when taken modulo 5 is equal to 1.  
+\subsection{We can operate on congruence classes!}
+For multiplication:
+$$\underline{2} \cdot \underline{4} = 8 \mod 5 = \underline{3}$$
+For addition:
+$$\underline{2} + \underline{4} = 6 \mod 5 = \underline{1}$$
+Since congruences are closed under addition and multiplication (remember: we're in a ring), any addition or multiplication of these congruence classes (or elements from the congruence classes) will \textbf{by definition} keep us in the congruence modulo n that we started in.
+
+\section{Arithmetic in $\Z_n$}
+This is important, so we'll state it again - the definition of a congruence:  Let $n$ be a positive number and $a,b \in \Z$.  Then we say that $a$ is congruent to $b$ modulo $n$ if $$n|(b-a)$$ which also means that $b-a = kn$ for some $k \in \Z$.  And we write this as $$a\equiv b \mod n$$
+
+When we do arithmetic with congruences, we are doing arithmetic in $\Z_n$.  So we'll do a quick proof that congruences are closed under addition and multiplication, even though we've been assuming it up to this point.
+\subsection{Proof of arithmetic rules in $\Z_n$}
+\begin{proof}\label{Congruence closure under addition}
+Show that if $a\equiv b \mod n$ and $c\equiv d \mod n$ then $$a + c \equiv b + d \mod n$$
+\begin{align*}
+a\equiv b \mod n &\ra \exists k \in \Z \text{ such that } b-a = kn &(\text{by definition of a congruence})\\
+c\equiv d \mod n &\ra \exists l \in \Z \text{ such that } d-c = ln &(\text{by definition of a congruence})\\
+\therefore (b-a) + (c-d) &= (k+l)\cdot n\\
+(b+d)-(a+c) &= (k+l)\cdot n &(\text{Rearrange terms in the order we want})\\
+\end{align*}
+This implies that $n|(b+d)-(a+c)$, which from the definition of a congruence gives us $a+c\equiv b+d \mod n$, which is what we were trying to prove.
+\end{proof}
+
+\begin{proof}\label{Congruence closure under multiplication}
+Show that if $a\equiv b \mod n$ and $c\equiv d \mod n$ then $$a \cdot c \equiv b \cdot d \mod n$$
+The first two steps of this proof are identical to the above proof, so we'll omit them and start in on the meat of the argument.
+\begin{align*}
+(b\cdot d) - (a \cdot c) &= (bd - ad) + (ad - ac) &(\text{Here we add +ad and -ad to the two terms on the right side})\\
+&= (b-a)d + a(d-c) &(\text{Factor out like terms})\\
+&= (kd)n + (al)n &(\text{Substitute in from our definition and rearrange terms})\\
+(b\cdot d) - (a \cdot c) &= (kd + al)n &(\text{note that $kd+al$ is just an integer})\\
+\end{align*}
+$\therefore n|(bd-ac)$ or $ac \equiv bd \mod n$
+\end{proof}
+
+% commenting out sections which I'm not sure I'm going to use
+%\subsection*{Remarks on algebraic properties of $\Z_n$}
+%\subsection*{The canonical element in a residue class}
+
+%\subsubsection*{Unique elements of $\Z_n$}
+%\subsubsection*{Number of congruence classes in $\Z_n$}
+
+
+\section{Units in $\Z_n$}
+\begin{definition}
+We say that a Congruence class \underline{$a$} is \textbf{invertible} or is a \textbf{unit} if there is a congruence class \underline{$x$} that satisfies the following equation: $$\underline{ax} = \underline{1}$$
+If $a \in \underline{a}$ and $x \in \underline{x}$ we can write instead $$ax\equiv 1 \mod n$$
+\end{definition}
+\subsection{Examples}
+For $\Z_7$, the following three statements all mean the same thing!
+\begin{itemize}
+\item $\underline{3} \cdot \underline{4} = \underline{15} = \underline{1}$
+\item So $\underline{3}$ is invertible in $\Z_7$
+\item $3 \cdot 5 \equiv 15 \equiv 1 \mod 7$
+\end{itemize}
+Let's examine another example in $\Z_{12}$.  Is 9 invertible in $\Z_{12}$?\\
+Solve: $9x \equiv 1 \mod 12$\\
+This would mean that $9x-1 = 12k$ for some $k \in \Z$\\
+The above statement implies that $3|1$, which isn't possible, so we have a contradiction.\\
+$\therefore$ there are no solutions and 9 is not invertible in $\Z_{12}$\\
+\newline
+One last example where actually find an inverse!\\
+Is 14 invertible in $\Z_{29}$?  (note - observe that $\gcd(14,29) = 1$)\\
+So we know from Bezout's Theorem that there is an integer linear combination of 14 and 29 that yields 1.  Thus, we can write $$14x_0 + 29y_0 = 1$$
+Now, we remember that \textit{Congruences are a useful form of myopia}, and put our $\Z_{29}$ glasses on.  This turns the equation into:
+$$14x_0\mod 29 + 29y_0 \mod 29 \equiv 1 \mod 29$$
+Then we remember that $29 \cdot (blah) \mod 29 \equiv 0$ for any $blah$, and we can remove it from our equation to give us
+$$14x_0 \equiv 1 \mod 29$$
+And from Bezout's Theorem we know there's a solution, so a quick check shows us that $(-2)14 + (1)29 = 1$.  Which tells us that 
+\begin{align*}
+x_0 &\equiv -2 \mod 29\\
+x_0 &\equiv 27 \mod 29 &(\text{We're shifting within our congruence class to the least positive member of the class})\\
+\therefore 14\cdot 27 &\equiv 1 \mod 29 
+\end{align*}
+\subsection{Theorem on invertibility in $\Z_n$}
+\begin{theorem}\label{invertibility}
+$a \in \Z$ is invertible $\mod n$ if and only if $\gcd(a,n) = 1$ 
+\end{theorem}
+\begin{proof}
+Because this is an "if an only if" proof, we want to show $\ra$ and $\la$.  We'll show $\ra$ first.\\
+Suppose a is invertible mod n.\\
+Then $\exists x \in \Z$ such that $a\cdot x \equiv 1 \mod n$.\\
+So from the definition of a congruence, we know that $n|(ax-1)$\\
+Which is equivalent to $ax - ny = 1$ for some $y\in\Z$
+And we immediately see that 1 is the smallest positive linear combination of $a$ and $n$, so $\gcd(a,n) = 1$ directly from Bezout's Theorem.
+\newline
+Now, focusing on $\la$, supposed that $\gcd(a,n)-1$.  Thus, $ax + ny = 1$ for some $x,y\in\Z$ (again, from Bezout's Theorem - see how useful it is?)\\
+When we put on our $\mod n$ glasses, $ax + ny = 1$ becomes $ax \equiv 1 \mod n$, because $ny$ goes to 0 when viewed through the lens of $\mod n$.\\
+$\therefore ax \equiv 1 mod n$ and we have shown if and only if.
+\end{proof}
+
+\section{The Chinese Remainder Theorem}
+The Chinese Remainder Theorem provides us with a useful method for solving systems of congruences, given that certain conditions are met.  This theorem has this name because it is a theorem about remainders, which was first discovered in the 3rd century AD by the Chinese mathematician Sunzi in Sunzi Suanjing.\footnote{From Wikipedia: $https://en.wikipedia.org/wiki/Chinese_remainder_theorem$}
+\begin{theorem}\label{Chinese Remainder Theorem}
+Suppose $n_1,N_2,\ldots,n_\ell$ are pairwise, relatively prime positive integers and $b_1,b_2,\ldots,b_\ell$ are arbitrary integers.  Then, there is an $x \in \Z$ that is a solution to the system of equations:
+$$x \equiv b_i mod n_i  for i = 1,\ldots,\ell$$
+And the solution to this system is unique modulo $\mb{N} = n_1,n_2,\ldots,n_\ell$
+\end{theorem}
+\subsection{Concrete example of what this means}
+\begin{ex}
+Suppose we have a system of congruences:
+$$\begin{cases}
+x \equiv 5 \mod 11\\
+x \equiv 7 \mod 13
+\end{cases}$$
+The Chinese Remainder Theorem implies that a solution $x_0$ to this system exists, and that the full solution family (because the solution exists as a congruence class) has the form $x_0 + n \cdot 11 \cdot 13$, for some $n \in \Z$.  Note that 11 and 13 are relatively prime to each other.
+\end{ex}
+
+Now that we know what this would look like in practice, let's continue on and prove the theorem, which will also give us a method for finding a solution to the system of congruences.
+
+\begin{proof}\label{CRT}
+The proof is by induction on $\ell$, starting from $\ell = 2$.
+
+\textbf{Basis Step:} Assume  $\ell = 2$.  Consider a system of the form:
+$$\star = 
+\begin{cases}
+x \equiv b_1 \mod n_1\\
+x \equiv b_2 \mod n_2
+\end{cases}
+\text{ where }gcd(n_1,n_2) = 1
+$$
+Let $\alpha_1, \alpha_2 \in \Z$ such that $\alpha_1 n_1 + \alpha_2 n_2 = 1$  (from Bezout's Theorem)\\
+Set $x = b_2 \alpha_1 n_1 + b_1 \alpha_2 n_2$\\
+\begin{note}We are sort of backing into this equation from the original system of congruences.  Since with our $\mod n_1$ glasses on, the above equation becomes $x \equiv 0 + b_1 \cdot 1 = b_1 \mod n_1$.  With our $\mod n_2$ glasses on, the equation is instead $x \equiv b_2 \cdot 1 + 0 = b_2 \mod n_2$.
+\end{note}
+
+Now that we have a method for finding $x$, we want to show that $x$ is a unique solution to our system of congruences.  So consider any integer of the form:
+\begin{align*}
+x' &= x + kn_1n_2\\
+x' &= x + kn_1n_2 \equiv x \equiv b_1 & \mod n_1 & (\text{Here we look at the entire row $\mod n_1$}\\
+x' &= x + kn_1n_2 \equiv x \equiv b_2 & \mod n_2 & (\text{Here we look at the entire row $\mod n_2$}\\
+\end{align*}
+$\therefore x'$ also solves the system of congruences we defined above as $\star$.
+
+Now suppose $x'$ is any solution to $\star$.  We want to show that it is of this form:
+\begin{align*}
+x'\equiv b_1\mod n_1 & & x\equiv b_1\mod n_1\\
+x'\equiv b_2\mod n_2 & & x\equiv b_2\mod n_2\\
+\therefore x' \equiv x \mod n_1 & &(\text{From our rules for congruences})\\
+x' \equiv x \mod n_2\\
+\end{align*}
+It follows that $n_1|(x'-x)$ and $n_2|(x'-x)$\\
+$\therefore n_1n_2|(x'-x)$ and $x'-x = kn_1n_2$ for some $k \in \Z$, which shows us that $x \equiv x' \mod n_1n_2$, so the solution is unique.
+
+\textbf{Inductive Hypothesis:} Assume the above result holds true for all $\ell$.
+\textbf{Inductive Step:} We will show the result holds true for $\ell + 1$.\\
+Consider a system of the form:
+$$\star\star = 
+\begin{cases}
+x \equiv b_1 \mod n_1\\
+x \equiv b_2 \mod n_2\\
+\vdots\\
+x \equiv b_\ell \mod n_\ell\\
+x \equiv b_{\ell+1} \mod n_{\ell+1}
+\end{cases}
+\text{ where any two $n_i$ are pairwise relatively prime.}
+$$
+By the induction hypothesis, there is a solution $x_0$ to the first $\ell$ equations.  Moreover, the full solution set to the first $\ell$ equations is $$x_0  kn_1n_2\ldots n_\ell, k \in \Z, \text{ and define } N' = n_1n_2\ldots n_\ell$$
+The full system $\star\star$ is then equivalent to the following pair of congruences:
+$$\begin{cases}
+x \equiv x_0 \mod N'\\
+x \equiv b_{\ell+1} \mod n_{\ell+1}
+\end{cases}$$
+And we realize that $\gcd(N',n_{\ell+1})=1$, so this final system can be solved in exactly the same manner as we solved the basis step where $\ell = 2$.
+\end{proof}
+\subsection{Examples}
+\begin{ex}
+Let's solve the first system we defined above:
+$$\begin{cases}
+x \equiv 5 \mod 11\\
+x \equiv 7 \mod 13
+\end{cases}$$
+First we need to find $\alpha_1,\alpha_2$ such that we have a linear integer combination that satisfies Bezout's Theorem.\\
+$$\alpha_1 11 + \alpha_2 13 = 1\\$$
+$$\alpha_1 = 6, \alpha_2 = -5$$
+$$6 \cdot 11 + (-5)\cdot 13 = 1$$
+Now we use $x = b_2 \alpha_1 n_1 + b_1 \alpha_2 n_2$
+$$x = 7 \cdot 6 \cdot 11 + 5 \cdot (-5) \cdot 13$$
+$$x = 137$$
+And note that $11 \cdot 13 = 143$, so a general solution is $137 + k143, k \in \Z$.
+\end{ex}
+\begin{ex}
+What happens if we extend this to three equations?  To make life easier on ourselves, let's just add an equation to the two we had above.
+$$\begin{cases}
+x \equiv 5 \mod 11\\
+x \equiv 7 \mod 13\\
+x \equiv 4 \mod 6
+\end{cases}$$
+
+So we actually only need to solve:
+$$\begin{cases}
+x \equiv 137 \mod 143\\
+x \equiv 4 \mod 6
+\end{cases}$$
+
+Using Bezout's theorem, we find a linear integer combination for $\gcd(6,143)=1$:
+$$1 = 24 \cdot 6 + (-1) \cdot 143$$
+So we have our $\alpha_1$ and $\alpha_2$.  Next,
+$$ x_0 = 137 \cdot 24 \cdot 6 - 4 \cdot 1 \cdot 143 $$
+$$ x_0 = 19156$$
+And since $4 \cdot 143 = 858$, $x_0 = 19156 + k \cdot 858$ is the general solution.
+\end{ex}
+
+\section{Prime numbers}
+Here we are going to step back from congruences, algorithms and greatest common divisors to focus on one of the most interesting types of integers - prime numbers.  Prime numbers show up in many places, and end up being incredibly useful in the study of cryptography.  Incredibly useful is really an understatement - the entire edifice upon which modern public-key cryptography is built relies on our ability to discover and multiply large prime numbers together, and the ensuing difficulty in recovering those prime factors from the resultant composite product.  But this is a digression, and we must return to our definitions before we can dig into the cryptography!
+\subsection{Definition of a prime number}
+\begin{definition}
+A positive integer $p$ is \textit{prime} if the only divisors of $p$ are $1$ and $p$ itself.
+\end{definition}
+\subsection{Lemma on prime divisibility}
+\begin{lemma}
+If $p$ is a prime and $p|ab$, then $p|a$ or $p|b$
+\end{lemma}
+\begin{proof}
+Our strategy for this proof is that we want to prove that if $p|ab$ and $p\nmid a$, then $p|b$.
+
+Assume that $p\nmid a$.  Since $p$ is prime, this means that $a$ and $p$ are relatively prime, thus $\gcd(a,p) = 1$.\\
+Using Bezout's Theorem, this tells us that $\exists s, t \in \Z$ such that $1 = as + pt$.\\
+If we multiply both sides of the above equation, we get $b = s \cdot (ab) + b \cdot (pt)$\\
+Since $p$ divides the right side of this equation (the portion of each term on the right divisible by p is placed in the parentheses), $p$ also divides $b$.\\
+$\therefore p|b$\\
+We can show that $p|a$ by simply swapping $a$ and $b$ in the above proof, which is sufficient to prove the Lemma.  This is known as \textbf{Euclid's Lemma}\footnote{William Stein, Elementary Number Theory, Theorem 1.1.19, p.7 (http://wstein.org/ent/ent.pdf)}
+\end{proof}
+\begin{theorem}\label{Prime Factorization of Integers}
+Every $n \in \N$ with $n>1$ has a factorization of the form:
+$$n = p^{k_1}_1 \cdot p^{k_2}_2 \cdot \ldots p^{k_l}_l$$
+Where $p_1, p_2, \ldots, p_l$ are distinct primes and $k_l > 0$
+\end{theorem}
+
+\begin{proof}\ref{Prime Factorization of Integers}
+We can prove this using strong induction.
+\begin{enumerate}
+\item \textit{Basis step}: When $n = 2$, the result clearly holds, since 2 is prime.
+\item \textit{Inductive Hypothesis}: Suppose the result holds for $2,\ldots,n$ and we will show it holds for $n + 1$.
+\item \textit{Induction step}: If $n+1$ is prime, we are done, as a prime number has a factorization of primes - itself.  Otherwise, $n+1$ is composite, thus $n+1 = a \cdot b$ where $1 < a,b < n + 1$.
+\item $\therefore$ both a and b have a factorization by primes from our Inductive Hypothesis, so $n+1$ also has such a factorization.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}\label{The Fundamental Theorem of Arithmetic}
+The factorization in the previous theorem is unique up to a reordering of the primes $p_1,p_2,\ldots,p_l$.
+\end{theorem}
+\begin{proof}\ref{The Fundamental Theorem of Arithmetic}
+We can also prove this using strong induction.  
+\begin{enumerate}
+\item \textit{Basis step}: When $n = 2$, the result holds, as there are no primes less than 2, which means that 2 cannot have an alternate factorization.
+\item \textit{Inductive Hypothesis}: Suppose the result holds for $2,\ldots,n$ and we will show it holds for $n + 1$.
+\item \textit{Induction step}: If $n+1$ has two distinct factorizations, we would have:\\
+(*) $n + 1 = p^{k_1}_1 \cdot p^{k_2}_2 \cdot \ldots p^{k_n}_n = q^{l_1}_1 \cdot q^{l_2}_2 \cdot \ldots q^{l_m}_m$\\
+Since $p_1|n+1$, $\therefore p_1|q^{l_1}_1 \cdot q^{l_2}_2 \cdot \ldots q^{l_m}_m$\\
+If $p_1 = q_i$ for any $i$, we could cancel $p_1$ from both sides of the equation we marked as (*).  Then we would have an equation at a lower level and we could invoke the \textit{inductive hypothesis} to say this is true.\\
+The other possibility is that $p_1 \neq q_i$ for all $i$.  In this case, $\gcd(p_1,q_i) = 1$  $\forall i = 1,\ldots,m$\\
+By Lemma 13.2, we would then say:\\
+$p_1|q^{l_1-1}_1 \cdot q^{l_2}_2 \cdot \ldots q^{l_m}_m$ because we factored out the $q_i$ that is relatively prime to $p_1$\\
+$p_1|q^{l_2}_2 \cdot \ldots q^{l_m}_m$ and again, we factored out one of the $q_i$ relatively prime to $p_1$\\
+$\vdots$ We repeat this factoring out of $q_i$ relatively prime to $p_1$ until we get\\
+$p_1|1$ Which is clearly a contradiction.\\
+\item $\therefore$ $p_1 = q_i$ for some $i$, and the factorization is unique up to reordering of the prime factors.
+\end{enumerate}
+\end{proof}
+
+\subsection{There are Infinitely Many Prime Numbers}
+\subsubsection{Theorem (Euclid)}
+\begin{proof}\label{infiniteprimes}
+By Contradiction - Suppose there are only finitely many primes.\\
+List all of the primes: $p_1, p_2, \ldots, p_n$\\
+Set $m = p_1 \cdot p_2 \cdot \ldots \cdot p_n + 1$\\
+$m$ \textbf{must} have a prime factorization, since $m \geq 2$\\
+$\therefore$ $m$ has a prime factor $q$, and $q = p_i$ for some $i = 1,\ldots,m$\\
+We can factor this $q$ out of $m$, which gives us $m = q(p_1 \cdot \ldots \cdot \hat{p_i} \cdot \ldots p_n) + 1$, where $\hat{p_i}$ represents the $p_i$ we factored out as $q$.  However, this immediately presents us with a contradiction, since we have assumed $q$ is a factor of $m$, but we see that $q \nmid m$, because the remainder upon division by $q$ is 1.\\
+$\therefore$ There are infinitely many prime numbers.
+\end{proof}
+
+\section{Euler totient function}
+Now that we have some good feelings about prime numbers, let's move on and examine some useful functions that will help us in working with prime numbers and congruences.
+\begin{definition}
+The Euler totient function, written as $\phi(n)$, counts the number of invertible elements in $\Z_n$.  Recall that an element of $\Z_n$ is invertible if it is relatively prime to $n$, so it is equivalent to say that $\phi(n)$ counts the number of elements in the list $\{0,1,2,\ldots,n-1\}$ that are relatively prime to $n$.\\
+Formally we would state:
+$$\phi(n) = \# ({a : 0 \leq a < n \text{ and } \gcd(a,n) = 1})\footnote{http://people.emich.edu/jramanath/docs/math409-592w17/elemNumTh02.pdf - Slide 15}$$
+\end{definition}
+\subsection{Examples of $\phi(n)$}
+As stated above, $\phi(n)$ is simply the number of integers from $0$ to $n-1$ which are relatively prime to $n$.  We can state this for several small integers.
+\begin{itemize}
+\item $\phi(5) = \#\{1,2,3,4\} = 4$ 
+\item $\phi(8) = \#\{1,3,5,7\} = 4$
+\item $\phi(24) = \#\{1,5,7,11,13,17,19,23\} = 8$
+\end{itemize}
+\subsection{If p is prime, $\phi(p) = p-1$}
+The proof of this is simply a counting exercise derived from the definition of the Euler $\phi$ function.  Since every number from 1 to $p-1$ is relatively prime to $p$ when $p$ is a prime number, and there are $p-1$ numbers in that list, then 14.2 directly follows from those facts.
+\subsection{Euler phi function of prime powers: $\phi(p^n)$}
+\begin{theorem}\label{euler_phi_prime_power}
+If $p$ is prime and $n$ is a positive integer, then $\phi(p^n)$ has the following value:
+$$\phi(p^n) = p^n - p^{n-1}$$
+\end{theorem}
+\begin{proof}\footnote{Stein, result 2.2.2, page 27}
+$\phi(p^n)$ is defined as all of the integers in the list $\{0,1,2,\ldots,p^n-1\}$ which are relatively prime to $p^n$.  Since $p$ is prime, it will be relatively prime with any element of this list except for those with a factor of $p$ - which will be those $p^a$ where $a < n$.  Which gives us:
+\begin{align*}
+\phi(p^n) &= p^n - \frac{p^n}{p} &(\text{$p^n$ minus the number of elements divisible by $p$})\\
+\phi(p^n) &= p^n - p^{n-1}  &(\text{And simplifying the exponent gives us our formula)}
+\end{align*}
+\end{proof}
+\subsection{Euler phi function of composite numbers: $\phi(n)$}
+\begin{theorem}\label{euler_phi_composite}
+If $n_1,n_2$ are positive, relatively prime integers, then: $$\phi(n_1\cdot n_2) = \phi(n_1) \cdot \phi(n_2)$$
+\end{theorem}
+\begin{proof}
+Consider the following function: $$F : \Z_{n_1n_2} \to \Z_{n_1} \times \Z_{n_2}$$
+Defined by $F(x) = (x \mod n_1, x \mod n_2)$.  Notice that since we're operating with our congruence glasses on, the value of $F$ is not going to change when we shift by multiples of $n_1n_2$.\\
+Next, suppose that $x$ is a unit in $\Z_{n_1n_2}$.  Then $\gcd(x, n_1n_2) = 1$ and Bezout's Theorem tells us that there are integers $u,v$ such that $xu + n_1n_2v = 1$.  Furthermore, this implies that:
+\begin{align*}
+xu &= 1 \mod n_1\\
+xu &= 1 \mod n_2
+\end{align*}
+$\therefore F(x) \in \Z^*_{n_1} \times \Z^*_{n_2}$, where $\Z^*_n$ is the group of units in $\Z_n$.
+Now, let's consider restriction the definition of $F$ to $\Z^*_{n_1n_2}$:
+$$F : \Z^*_{n_1n_2} \to \Z^*_{n_1} \times \Z^*_{n_2}$$
+And we claim that $F$ is bijective.  To prove that there is a bijection, we must prove injectivity and surjectivity.\\
+\linebreak
+\underline{Injectivity}: To prove injectivity we want to show that every element in the range of $F$ maps to a unique element in the domain.  That is, we want to show that if $F(x) = F(x')$, then $x = x'$.\\
+To begin, suppose $F(x) = F(x')$.  This means that:
+$$x \mod n_1 = x' \mod n_1$$
+$$x \mod n_2 = x' \mod n_2$$
+Which is equivalent to
+$$x'-x \equiv 0 mod n_1$$
+$$x'-x \equiv 0 mod n_2$$
+So we have $n_1|x'-x$ and $n_2|x'-x$.  Since $\gcd(n_1,n_)=1$, then from our rules about relatively prime numbers and divisibility we have $n_1 \cdot n_2 | x'-x$.\\
+$\therefore x'\mod(n_1n_2) = x \mod (n_1n_2)$, which shows that $F$ is injective.\\
+\linebreak
+\underline{Surjectivity}: To prove that there is a surjection, we want to show that for any $a \mod n_1$ that is a unit in $\Z_{n_1}$ and $b \mod n_2$ that is a unit in $\Z_{n_2}$ there exists some $x$ such that $$x \equiv a \mod n_1$$ $$x \equiv b \mod n_2$$
+Technically, if we can show this then we have shown that the range and domain of our function $F$ are the same size, which is sufficient to prove surjection.  Now, the above two congruences should look familiar - we know that we can find an $x$ that satisfies both equations using the Chinese Remainder Theorem.  Further, the solution is unique modulo $n_1n_2$, which is what we need.  Specifically, the solution is given by: $$F(x \mod n_1 n_2) = (a \mod n_1, b \mod n_2)$$ Which tells us that the sets $\Z_{n_1n_2}$ and $\Z_{n_1} \times \Z_{n_2}$ have the same size.\\
+\begin{align*}
+\therefore \phi(n_1n_2) &= \#(\Z_{n_1n_2}) \\
+&= \#(\Z_{n_1} \times \Z_{n_2}) = \phi(n_1) \cdot \phi(n_2)
+\end{align*}
+\end{proof}
+\subsubsection{Examples}\label{composite_euler_examples}
+Above we showed that $\phi(8) = 4$, and $\phi(24) = 8$ by counting out the relatively prime integers.  Now let's use our new theorems to do the calculations.
+\begin{itemize}
+\item $\phi(8) = \phi(2^3) = 2^3-2^2 = 8-4 = 4$
+\item $\phi(24) = \phi(2^3) \cdot \phi(3) = (2^3-2^2) \cdot (3-1) = 4 \cdot 2 = 8$
+\item $\phi(91) = \phi(13) \cdot \phi(7) = 12 \cdot 6 = 72$
+\end{itemize}
+\section{Fermat’s Little Theorem}
+\begin{theorem}
+Let $p$ be a prime, and $a \in \Z$ such that $\gcd(a,p) = 1$.  Then we have $$a^{p-1} \equiv 1 \mod p$$
+\end{theorem}
+\begin{proof}
+Define $F: \Z^*_p \to \Z^*_p$ by $F(x) = ax \mod p$\\
+Suppose that $F(x) = F(x')$ this directly implies that $ax \equiv ax' \mod p$.  We know that $a$ is invertible, so let $\alpha$ be the inverse of $a \mod p$.  Then we can multiply both sides by $\alpha$ to get 
+$$(\alpha a)x \equiv (\alpha a)x' \mod p$$
+$$\therefore x \equiv x' \mod p$$
+$\therefore F$ is injective, and since the domain and range are the same size (and finite), injectivity implies surjectivity.  So $F$ is a bijection, and we can say that the list
+$$ 1 \mod p, 2 \mod p, \ldots (p-1) \mod p $$
+and the list
+$$ 1\cdot a \mod p, 2 \cdot a \mod p, \ldots, (p-1)\cdot a \mod p$$
+are the same, ignoring reordering (they are permutations of each other).\\
+$\therefore (p-1)! \equiv a^{p-1} \cdot (p-1)! \mod p$\\
+And since $(p-1)! \mod p$ is invertible, we can cancel it from both sides of the equation, which gives us:
+$$1 \equiv a^{p-1} mod p$$
+\end{proof}
+\subsection{Pseudoprimes}
+Pseudoprimes are not prime numbers, but they have some useful properties.  Fermat's Little Theorem gives us a method for discovering pseudoprimes.  We define an integer $n > 1$ as being pseudoprime relative to $a$ if $\gcd(a,n)=1$ and $$a^n \equiv a \mod n$$
+\subsection{Using Fermat's Little Theorem to do computations}
+Fermat's Little Theorem gives us a way to reduce exponents in a given modulus, which allows us to calculate large exponents modulo a specific $p$ very easily.  We'll do an example.
+\begin{ex}
+Calculate $14^{2004} \mod 23$ using Fermat's Little Theorem.
+\begin{enumerate}
+\item Fermat's Little theorem states that if $x \not\equiv 0 \mod 23$, then $x^{22} \equiv 1 \mod 23$
+\item Clearly $14 \not\equiv 0 \mod 23$
+\item So we use the division algorithm to find $2004 = 22q + 2$, 
+\item Next we break down our original equation: $(14^{22})^q \cdot 14^2 \mod 23$
+\item Using Fermat's Little Theorem we see that $(14^{22})^q \equiv 1 \mod 23 $
+\item So we can write $1 \cdot 14^2 \mod 23$
+\item Which is simply $196 mod 23 = 12$
+\end{enumerate}
+\end{ex}
+\section{Euler’s Theorem}
+\begin{theorem}
+Let $n>1$ be a given integer, and suppose $a \in \Z$ satisfies $\gcd(a,n) = 1$ (That is, $a$ and $n$ are relatively prime.)  Then: $$a^{\phi(n)} \equiv 1 \mod n$$
+\end{theorem}
+\begin{proof}
+Let's define $\star = \{u_1, u_2, \ldots, u_{\phi(n)}\}$ as a listing of the integers in the list $\{1,2,\ldots,n\}$ which are relatively prime to $n$.\\
+Now, define for $i = 1,\ldots, \phi(n)$: $v_i$ as the remainder of $a \cdot u_i$ upon division by $n$.\\
+Note that each $v_i$ is in the list $\star$.  Moreover:
+\begin{align*}
+v_i &\equiv v_j \mod n\\
+\ra au_i &\equiv au_j \mod n\\
+\ra u_i &\equiv u_j \mod n &(\text{Since a is invertible})\\
+\ra i &= j
+\end{align*}
+$\therefore v_1, v_2, \ldots, v_{\phi(n)}$ is just a rearrangement of $u_1, u_2, \ldots, u_{\phi(n)}$\\
+So we can further write:
+\begin{align*}
+u_1, u_2, \ldots, u_{\phi(n)} &\equiv v_1, v_2, \ldots, v_{\phi(n)} \mod n\\
+u_1, u_2, \ldots, u_{\phi(n)} &\equiv (au_1), (au_2), \ldots, (au_{\phi(n)}) \mod n\\
+u_1, u_2, \ldots, u_{\phi(n)} &\equiv a^{\phi(n)}(u_1, u_2, \ldots, u_{\phi(n)}) \mod n
+\end{align*}
+And since $u_1, u_2, \ldots, u_{\phi(n)} \mod n$ is invertible, we can cancel it from both sides and get
+$$a^{\phi(n)} \equiv 1 \mod n$$
+\end{proof}
+\subsection{Using Euler's Theorem to do computations}
+Euler's Theorem also gives us a way to reduce exponents in a given modulus.  While Fermat's Little Theorem can only be used when the base of the exponent is not congruent to $0 \mod p$, Euler's Theorem is slightly more general, and can be used whenever the base of the exponent is a unit in the given modulus.  So we can use Euler's Theorem in non-prime modulus classes.
+\begin{ex}
+Calculate $13^{2017} \mod 24$ using Euler's Theorem
+\begin{enumerate}
+\item Euler's theorem works if $x \mod 24$ is a unit, and $\gcd(13,24) = 1$, so 13 is a unit.
+\item We need to calculate $\phi(24) = 8$, which we did earlier (see example \ref{composite_euler_examples})
+\item So we use the division algorithm to find $2017 = 8q + 1$, 
+\item Next we break down our original equation: $(13^{8})^q \cdot 13^1 \mod 24$
+\item Using Euler's we know that $(13^{8})^q \equiv 1 \mod 24 $
+\item So we can write $1 \cdot 13^1 \mod 24$
+\item Which is simply $13 \mod 24 = 13$
+\end{enumerate}
+\end{ex}
+
+\section{Algorithms}
+Number Theory allows us to discover some useful algorithms.  Here are a few of them.  In general I'm going to gloss over any descriptions of pseudocode or even specific code, since I'm far more comfortable writing code than writing proofs.
+\subsection{Fast multiplication mod p}
+\begin{definition}
+Fix some $n \geq 1$.  We can computer $a^k \mod n$, where $a \in \Z$ and $k$ is a positive integer.\\
+We expand p in terms of its binary representation:
+$$ k = b_0 \cdot 2^0 + b_1 c\dot 2^1 + b_2 \cdot 2^2 + \ldots + b_{\ell} \cdot 2^{\ell} $$
+Where $b_i = 0 \text{ or } 1 \text{ for } i = 0,\ldots,\ell$.  And the binary expansion of $k$ is thus written: $b_{\ell}b_{\ell-1}b_{\ell-2} \ldots b_{0}$, where $b_0$ is the least significant bit.  In terms of $a^k$, this gives us:
+\begin{align*}
+a^k &= a^{b_0 \cdot 2^0 + b_1 c\dot 2^1 + b_2 \cdot 2^2 + \ldots + b_{\ell} \cdot 2^{\ell}} \\
+&= a^{b_0 \cdot 2^0} \cdot a^{b_1 c\dot 2^1} \cdot a^{b_2 \cdot 2^2} \cdot \ldots \cdot a^{b_{\ell} \cdot 2^{\ell}} \\
+&= a^{b_0} \cdot (a^2)^{b_1} \cdot (a^4)^{b_2} \cdot \ldots \cdot (a^{2^{\ell}})^{b_{\ell}}
+\end{align*}
+Which we can use to compute the exponent $\mod k$.
+\end{definition}
+\subsection{Example}
+Let $a=7$, $k=151$, $n=11$, and find $a^k \mod n$.  So find $7^151 \mod 11$.\\
+The binary representation of 151 is $10010111_2$
+We start with the least significant bit, calculate $a^{b_i} \mod n$ for each bit, and multiplying the result by the value in the accumulator $\mod n$ if the bit of $k$ is 1.  If the bit is not 1, we do the calculation anyway but skip storing the result to the accumulator.
+\begin{align*}
+&\text{\underline{bits of p}  }&\text{ \underline{powers of $a \mod n$} } && \text{\underline{Accumulator $\mod n$}}\\
+&1 & a^{b_0} = 7 \mod 11 = 7 && 7\\
+&1 & (a^2)^{b_1} = 49 \mod 11 = 5 && (35 \cdot 7) \mod 11 = 2\\
+&1 & 5^2 \mod 11 = 3 && (3 \cdot 2) \mod 11 = 6 \\
+&0 & 3^2 \mod 11 = 9 && \text{bit is zero, skip}\\
+&1 & 9^2 \mod 11 = 4 && (4 \cdot 6) \mod 11 = 2\\
+&0 & 4^2 \mod 11 = 5 && \text{bit is zero, skip}\\
+&0 & 5^2 \mod 11 = 3 && \text{bit is zero, skip}\\
+&1 & 3^2 \mod 11 = 9 && (9 \cdot 2) \mod 11 = 7\\
+\end{align*}
+$\therefore 7^151 \mod 11 = 7$
+
+\section{Algorithm - Fast Sieve of Eratosthenes}
+The Sieve of Eratosthenes is a prime number sieve that provides a simple method for finding prime numbers up to some integer $n$.  The general way that the sieve works is that it creates a list of all integers up to $n$, then starting at 2, it removes all multiples of 2 from the list.  Then it finds the next prime (3), and removes all multiples of three from the list.  It continues on until it reach $n$.  At least, that's the standard method.  The fast method only goes up to $\sqrt[]{n}$.
+\begin{lemma}
+If $n$ is composite, then it has a proper divisor $a$ such that $a \leq \sqrt{n}$
+\end{lemma}
+\begin{proof}
+Suppose $n$ is composite.  Then there are positive integers $x,y$ such that $n = x \cdot y$, and $1 < x,y < n$.\\
+Consider the situation where both $x$ and $x$ are greater than $\sqrt{n}$.  Then 
+$$n = x \cdot y > \sqrt{n} \cdot \sqrt{n} = n$$
+Which is a contradiction, since $n$ is clearly not greater than itself.  So at least one of $x$ or $y$ must be no greater than $\sqrt{n}$.
+\end{proof}
+\subsection{Python code to implement the fast sieve}
+Since I've never implemented this before taking Cryptography, here's an implementation in Python:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{math} \PY{k}{import} \PY{n}{sqrt}
+        
+        \PY{k}{def} \PY{n+nf}{fastErat}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Fast version of the sieve of Eratosthenes. Only multiple }
+        \PY{l+s+sd}{        of primes up to sqrt of n are filtered.\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{c+c1}{\PYZsh{}print(2)}
+                \PY{n}{primes} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                \PY{k}{if} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{p}{:} \PY{k}{return}\PY{p}{(}\PY{n}{primes}\PY{p}{)}
+                \PY{n}{testbnd} \PY{o}{=} \PY{n}{sqrt}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mf}{0.000001}\PY{p}{)}
+                \PY{n}{nxtpr} \PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{lst} \PY{o}{=} \PY{p}{[}\PY{n}{x} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{n}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{]}
+                \PY{k}{while} \PY{p}{(}\PY{n}{lst} \PY{o}{!=} \PY{p}{[}\PY{p}{]}\PY{p}{)} \PY{o+ow}{and} \PY{p}{(}\PY{n}{nxtpr} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{testbnd}\PY{p}{)} \PY{p}{:}
+                        \PY{n}{nxtpr} \PY{o}{=} \PY{n}{lst}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                        \PY{n}{primes}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{nxtpr}\PY{p}{)}
+                        \PY{n}{lst} \PY{o}{=} \PY{p}{[}\PY{n}{x} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{lst} \PY{k}{if} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZpc{}}\PY{k}{nxtpr}) != 0]
+                \PY{k}{return}\PY{p}{(}\PY{n}{primes}\PY{o}{+}\PY{n}{lst}\PY{p}{)}
+\end{Verbatim}
+
+
+\section{Algorithm for fast GCD computation using bit shift operations}
+We can use our GCD identities combined with the bit shift operations to implement a fast method of computing the GCD.  Fast in the sense that the division algorithm can be expensive for large numbers, but a bit shift works in constant time.
+\subsection{Python code to implement bit-shift GCD}
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k}{def} \PY{n+nf}{mygcd}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{:}
+            \PY{n}{x} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+            \PY{n}{y} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{b}\PY{p}{)}
+            \PY{n}{g} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{c+c1}{\PYZsh{}print(\PYZsq{}Computing the gcd of \PYZob{}0\PYZcb{} and \PYZob{}1\PYZcb{}\PYZsq{}.format(x,y))}
+            \PY{k}{while} \PY{n+nb}{min}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}        
+                \PY{n}{rx} \PY{o}{=} \PY{n}{x} \PY{o}{\PYZam{}} \PY{l+m+mi}{1}                  \PY{c+c1}{\PYZsh{} rx = x mod 2        }
+                \PY{n}{ry} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZam{}} \PY{l+m+mi}{1}                  \PY{c+c1}{\PYZsh{} ry = y mod 2        }
+                \PY{k}{if} \PY{p}{(}\PY{n}{rx} \PY{o}{==} \PY{l+m+mi}{0} \PY{o+ow}{and} \PY{n}{ry} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{x} \PY{o}{=} \PY{n}{x} \PY{o}{\PYZgt{}\PYZgt{}} \PY{l+m+mi}{1}            \PY{c+c1}{\PYZsh{} x = x/2 }
+                \PY{k}{elif} \PY{p}{(}\PY{n}{ry} \PY{o}{==} \PY{l+m+mi}{0} \PY{o+ow}{and} \PY{n}{rx} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{y} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZgt{}\PYZgt{}} \PY{l+m+mi}{1}            \PY{c+c1}{\PYZsh{} y = y/1}
+                \PY{k}{elif} \PY{p}{(}\PY{n}{rx} \PY{o}{==} \PY{l+m+mi}{0} \PY{o+ow}{and} \PY{n}{ry} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{g}\PY{p}{,}\PY{n}{x}\PY{p}{,}\PY{n}{y} \PY{o}{=} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{g}\PY{p}{,}\PY{n}{x}\PY{o}{\PYZgt{}\PYZgt{}}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{y}\PY{o}{\PYZgt{}\PYZgt{}}\PY{l+m+mi}{1}
+                \PY{k}{else}\PY{p}{:}
+                    \PY{n}{x}\PY{p}{,}\PY{n}{y} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{p}{)}\PY{p}{,}\PY{n+nb}{min}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}                                               
+            
+            \PY{k}{return} \PY{n+nb}{max}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)} \PY{o}{*} \PY{n}{g}
+\end{Verbatim}
+
+
+
+
+\end{document}
