@@ -1,0 +1,1067 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[10pt]{article}
+ 
+\usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+      
+    
+    
+
+    % Pygments definitions 
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0} 
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{definition}
+\newtheorem{ex}[theorem]{Example}
+\newtheorem{exer}[theorem]{Exercise}
+\newtheorem{refer}[theorem]{Reflection}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{note}[theorem]{Note}
+\newtheorem{caut}[theorem]{CAUTION}
+  
+\usepackage{setspace}
+    %package gives us the ability to set the line spacing.
+   
+
+
+    %packages control the ``style'' or look of the document. These come in the form of 
+    %files ***.sty. The package ``homework'' above was created by me. The other packages
+    %are very common for this type of document. You can google to learn more about what
+    %they can do, and what options they give you. For example
+% * <moller@gmail.com> 2017-03-06T03:37:04.525Z:
+%
+% ^.
+  
+\usepackage{setspace}
+    %package gives us the ability to set the line spacing.
+\def\R{\mathbb{ R}}
+\def\Z{\mathbb{ Z}}
+\def\Q{\mathbb{ Q}}
+\def\S{\mathbb{ S}}
+\def\I{\mathbb{ I}}
+\def\N{\mathbb{N}}
+\def\ra{\Rightarrow}
+\def\lra{\Leftrightarrow}
+\def\la{\Leftarrow}
+\def\ul{\underline}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\dlog}{dlog}
+\newcommand{\bigoh}{\mathcal{O}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mr}[1]{\mathrm{#1}}
+\newcommand{\ith}[1]{$i^{\mr{th}}$}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\rd}[1]{\color{red}{#1}}
+\newcommand{\bl}[1]{\color{blue}{#1}}
+
+    %these set up environments for listing things. The numbering is automatic.
+\newenvironment{rcases}
+  {\left.\begin{aligned}}
+  {\end{aligned}\right\rbrace}
+    
+\newenvironment{solution}[1][Solution]{\begin{doublespace}\textbf{#1.}\quad }{\ \rule{0.5em}{0.5em}\end{doublespace}}
+    %this is the environment for writing solutions. double spaced, with an end of proof
+    %box at the end
+    
+\title{Cryptography and Elementary Number Theory:\\A Brief Continuation \\
+From Math 592 - Cryptography\\Eastern Michigan University}
+\author{David Moll \\
+dmoll@emich.edu}
+    %above is the information that goes in the title. Notice the { and }. 
+    %the double slashes \\ mean start a new line.
+    
+\begin{document} %this means end the preamble (stuff controling the styles above and
+%start the content of the document. We can make adjustments as we go. For example,
+\maketitle %make the title according to the styles outlined in homework.sty
+\vskip .25in %skip a bit before we start the regular text.
+\pagebreak
+\thispagestyle{empty} %no need to number first page.
+
+\section{Introduction}
+
+This is continuation of a set of notes for Math 592 - Cryptography taken at Eastern Michigan University in the Winter Semester of 2017 with Dr. J. Ramanathan.  These pages round out a discussion of elementary number theory as it relates to cryptography and finish with a discussion of several cryptographic schemes, along with the number theoretic arguments for why the schemes work and what possible weaknesses they may have.
+
+\section{Primitive Roots in $\Z_n$}
+We are going to use our knowledge of units in $\Z_n$ and the Euler totient function to describe and derive some crucial facts about certain types of units, based on what we call the \textbf{Order} of an element in $\Z_n$.
+\subsection{Order of an element in $\Z_n$}
+\begin{definition}
+Let $n>1$ be a given integer, and $a \in \Z_n$.  The \textbf{order} of $a \mod n$ is: 
+$$\min\{k: k \geq 1 \text{ and } a^k \equiv 1 \mod n \}$$
+\end{definition}
+Order is a property of the congruence class $a \mod n$.  If this set is empty, we say that the order of a is $\infty$ or undefined. We generally write the order this way: $$\ord(a)=k $$
+\begin{theorem}
+The order of $a \in \Z_n$ is finite precisely when $\gcd(a,n)=1$
+\end{theorem}
+Note that because this theorem is phrased in the manner of \textit{precisely when}, we know that it is an "if an only if" scenario.  So first we prove the "if" portion of the statement.
+\begin{proof}
+If the order of $a$ is finite $\mod n$, there is an integer $k \geq 1$ such that: $$ a^k \equiv 1 \mod n$$
+Therefore, there exists some $x$ such that:
+\begin{align*}
+a^k-1 = x \cdot n &(\text{By the definition of modulus})\\
+a^k-x \cdot n = 1\\
+a^{k-1}\cdot a + (-x)\cdot n = 1 &(\text{This is a linear combination of $a$,$n$})\\
+\therefore \gcd(a,n) = 1 &(\text{By Bezout's Theorem})
+\end{align*}
+We've shown $\Rightarrow$, now we'll show $\Leftarrow$:\\
+Now, suppose $\gcd(a,n)=1$.  This implies that $a$ and $n$ do not share any common prime divisors.\\
+$\therefore$ $a^k$ and $n$ share no common prime divisors.  i.e. $\gcd(a^k,n)=1$.  Since we have our $\Z_n$ glasses on, we know that the possible values for $a^k$ are: $$ a\mod n, a^2 mod n, a^3 mod n, \ldots , a^{\phi(n)}\mod n$$
+Because there are only $\phi(n)$ possibilities for the members of this list (since by Euler's Theorem, $a^{\phi(n)} \equiv 1 \mod n$).\\
+$\therefore$ There are positive integers $i < j$ :
+\begin{align*}
+a^i \mod n &\equiv a^j \mod n &\\
+a^i &\equiv a^j \mod n &\\
+a^i &\equiv a^i \cdot a^{j-i} \mod n &(\text{Factor $a^i$ out from $a^j$})\\
+1 &\equiv a^{j-i} \mod n &\\
+\end{align*}
+$\therefore$ The order of $a$ must be finite (and in particular, $\ord(a)$ must be $\leq j-i$)
+\end{proof}
+\begin{theorem}
+Let $n>1$ and $a \in \Z$ with $\gcd(a,n)=1$.  Then the order of $a \mod n$ must divide $\phi(n)$.  This is, $$\ord(a)|\phi(n)$$
+\end{theorem}
+\begin{proof}
+We will do a short proof by contradiction.\\
+First, suppose that $\ord(a)\not | \phi(n)$ Then:
+\begin{align}
+\phi(n) &= a \cdot \ord(a) + r \text{ where } 0 < r < \ord(a) &(\text{By the division algorithm})\\
+a^{\phi(n)} &\equiv 1 \mod n &(\text{Euler's Theorem})\\
+a^{a \cdot \ord(a) + r} &\equiv 1 \mod n &(\text{Substitute value from line 1 in to line 2})\\
+a^{a \cdot \ord(a)}\cdot a^r &\equiv 1 \mod n &(\text{Simplifying})\\
+(a^{\ord(a)})^a \cdot a^r &\equiv 1 \mod n &(\text{Rearranging exponents})\\
+a^r &\equiv 1 \mod n &(a^{\ord(a)}\equiv 1 \mod n \text{ by the definition of order})\\
+\end{align}
+And we can see line 6 is a contradiction, because $r < \ord(a)$, and $\ord(a)$ is the minimal integer that produces 1 when raising $a$ to that power.  $\therefore \ord(a)|\phi(n)$.
+\end{proof}
+\begin{ex}
+What is the order of $5$ in $\Z_{11}$?
+\setcounter{equation}{0}
+\begin{align}
+5^2 &= 25 \equiv 3 \mod 11\\
+5^3 &= 3\cdot 5 \equiv 4 \mod 11\\
+5^4 &= 4\cdot 5 \equiv 9 \mod 11\\
+5^5 &= 9\cdot 5 \equiv 1 \mod 11
+\end{align}
+So we see that $\ord(5)=5$ in $\Z_{11}$.
+\end{ex}
+\subsection{Primitive roots}
+\begin{definition}
+A unit $x \mod n$ is a primitive root in $\Z_n$ if $\ord_n(x) = \phi(n)$.
+\end{definition}
+Before we really dive into primitive roots, let's look at some examples.
+\begin{ex}
+For $\Z_6$, the set of units is $\Z^{*}_6 = \{\ul{1},\ul{5}\}$, and $\ord_6(5)=2$, because $5^2=25\equiv 1 \mod 6$. We can compute $\phi(6)$ as follows: $$ \phi(6) = \phi(2) \cdot \phi(3) = 1 \cdot 2 = 2 $$
+$\therefore 5$ is a primitive root in $\Z_6$.
+\end{ex}
+\begin{ex}
+For $\Z_8$, the set of units is $\Z^{*}_8 = \{\ul{1},\ul{3},\ul{5},\ul{7}\}$\\
+We can see that for all $x \in \Z^{*}_8$, $x^2 \equiv 1 \mod 8$. We can compute $\phi(8)$ as follows: $$ \phi(8) = 2^3 - 2^2 = 4$$
+$\therefore$ There are no primitive roots in $\Z_8$ Since $ 4 \neq 2$.
+\end{ex}
+\pagebreak
+\subsection{The Primitive Root Theorem}
+\begin{theorem}\label{Primitive Root Theorem}
+There always exists a primitive root in $\Z^{*}_p$, where $p$ is a prime.\footnote{This is a special case of a result from group theory, but since we're dealing with this in a cryptography course we won't talk about it because we only ever say "group theory" in whispers.}
+\end{theorem}
+This is a rather heavy idea, so we can't jump into it.  We need some supporting facts first, that may not immediately appear to be related but will eventually come together to prove this theorem.
+\begin{lemma}
+Suppose $d|n$.  Then the number of solutions to:
+\begin{align*}
+\star \gcd(x,n) = d \\ 
+\text{ for } 0 \leq x < n\\
+\text{ is } \phi(\frac{n}{d})
+\end{align*}
+\end{lemma}
+\begin{proof}
+Suppose $x$ is a solution to $\star$.  Then $d|x$ and $d|n$.  So we see that:
+\begin{align*}
+\gcd(x,n) &= \gcd(d \cdot \frac{x}{d}, d \cdot \frac{n}{d})\\
+\gcd(x,n) &= d \cdot \gcd(\frac{x}{d},\frac{n}{d})\\
+\therefore \gcd(\frac{x}{d},\frac{n}{d}) &= 1 \text{  and } 0 \leq \frac{x}{d} < \frac{n}{d}
+\end{align*}
+Note that this works because we have defined $\gcd(x,n) = d$, so we are dividing both sides by $d$ in the last step.  We have actually just constructed a function taking us from $x \mapsto \frac{x}{d}$.  We want to show that this function is a bijection.
+
+Next, let $a$ have the property that: $$ 0\leq a < \frac{n}{d} \text{ and } \gcd(a, \frac{n}{d}) = 1$$
+
+Then we can write:
+\begin{align*}
+d =& d \cdot 1\\
+d =& d \cdot \gcd(a, \frac{n}{d})  &(\text{From how we defined a.})\\
+d =& \gcd(a \cdot d, n) &(\text{From our gcd identities})\\
+\end{align*}
+Note also that $0 \leq a \cdot d < n$, and $\therefore a \cdot d$ is a solution to $\star$.
+
+$\therefore$ the solution set to $\star$ is bijective to the set $\{a: 0 \leq a < \frac{n}{d} \text{ and } \gcd(a, \frac{n}{d}=1\}$.  We can see that there are $\phi(\frac{n}{d})$ elements in this set.
+\end{proof}
+\begin{lemma}
+For any $n \geq 1$, $n=\sum_{d|n}\phi(d)$
+\end{lemma}
+This is saying that if we sum up the Euler totient values of every $d$ that divides $n$, the resulting sum is simply $n$. Let's try and prove this.
+\begin{proof}
+Partition the list of numbers: $$0,1,2,\ldots , n-1$$ according to their $\gcd$ with $n$.
+
+So if $d|n$ we write $\mb{X}_d = \{x:0 \leq x < n \text{ $\&$ } \gcd(x,n)=d\}$
+And each integer in the list $0,1,2,\ldots , n-1$ belongs to exactly one of the sets $\mb{X}_d$, that specific set where $d|n$.
+
+$\therefore n =\sum_{d|n}\#(\mb{X}_d) = \sum_{d|n}\phi(\frac{n}{d}) = \sum_{d|n}\phi(d)$
+\end{proof}
+This feels a little obtuse, so let's do a quick example to illustrate exactly what's happening on that last line.
+\begin{ex}
+\begin{align*}
+&\text{\underline{d}  }&\text{ \underline{List of $x$ with $\gcd(x,15)=d$} } && \text{\underline{Sum}}\\
+&1 & 1,2,4,7,8,11,13,14 && \phi(\frac{15}{1}) = 8\\
+&3 & 3.6.9.12 && \phi(\frac{15}{3}) = 5\\
+&5 & 5,10 && \phi(\frac{15}{5}) = 3\\
+&15 & 0 && \phi(\frac{15}{15}) = 1
+\end{align*}
+And notice that if we sum the last column, we get $8 + 5 + 3 + 1 = 15$, which is what the Lemma states.  One of the key items here is that if we sweep through $\phi(\frac{n}{d})$ with all possible values of $d$ that divide $n$, the resulting set is simple that of all the values of $d$ that divide $n$, which is why we can say that $\sum_{d|n}\phi(\frac{n}{d}) = \sum_{d|n}\phi(d)$.  We are essentially changing the variable of the Euler-$\phi$ function by swapping out the variable with its complementary divisor.
+\end{ex}
+\begin{remark}
+Let $p$ be a prime.  Then: $$\Z_{p}^* = \{\ul{1},\ul{2},\ldots ,\ul{p-1}\}$$
+Every non-zero element in $\Z_{p}$ has an inverse (i.e. is a unit).  This makes $\Z_{p}$ a \ul(field).  In particular, a polynomial with coefficients in $\Z_{p}$ of degree $n$ can't have more than $n$ roots.
+\end{remark}
+Before we jump into proving the Primitive Root Theorem, let's recap quickly the facts we have gathered:
+\begin{enumerate}
+\item Each element of $\Z_{p}$ has an order which is a divisor of $\phi(p) = p-1$.
+\item For each $d|p-1$, we have partitioned the $d$'s into sets $\mb{X}_d = \{x \in \Z_{p} : \ord(x) = d\}$ 
+\item Each member of $\Z_{p}$ is in precisely one of the $\mb{X}_d$
+\item $\sum_{d|p-1}\#(\mb{X}_d) = p-1$ (this is a restatement of Lemma 10 with n = p-1).
+\end{enumerate}
+We have one final Lemma to prove before we move on to the Primitive Root Theorem.
+\begin{lemma}
+Let $n$ be a positive integer, and let $g \in \Z_{n}^*$ and let $m = \ord(g)$.
+
+Then for any $a > 0$, the order of $g^a$ is $\frac{m}{\gcd(m,a)}$
+\end{lemma}
+\begin{proof}
+Consider the list:
+$$\ul{1},\ul{g},\ul{g^2},\ldots,\ul{g^{m-1}},\ul{g^m}=\ul{1},\ldots$$
+And note that $g^a$ is in the middle ellipses, that is $\ul{g^2} < \ul{g^a} < \ul{g^{m-1}}$.
+The order of $g^a \mod n$ is the smallest positive power of $g^a$ that yields $1 \mod n$.  Consider the following equation: 
+\begin{align*}
+(g^a)^k &\equiv 1 \mod n &\\
+g^{ak} &\equiv 1 \mod n &(\text{Rearrange exponents})\\
+&\Rightarrow m|ak &(\text{Because $g^{ml} \equiv 1 \mod m$ for $l \in \Z$})\\
+&\Rightarrow ak = m \cdot s, &(\text{ for some } s \in \N) \\
+&\Rightarrow \frac{a}{\gcd(a,m)} \cdot k = \frac{m}{\gcd(a,m)} \cdot s \\
+&\Rightarrow \frac{m}{\gcd(a,m)}|k &(\text{Since $\gcd(\frac{a}{\gcd(a,m)},\frac{m}{\gcd(a,m)})=1$})\\
+\end{align*}
+The smallest $k$ with this property is simply $\frac{m}{\gcd(a,m)}$.\\
+$\therefore$ the order of $g^a$ is $\frac{m}{\gcd(a,m)}$
+\end{proof}
+\pagebreak
+We're finally ready to start proving the Primitive Root Theorem\ref{Primitive Root Theorem}.
+\begin{proof}
+Note that $\Z_{p}^*$ has $\phi(p)=p-1$ elements.
+
+Write, for each $d|p-1$, $$ \mb{C_d} = \{0<k<p : \ord(k \mod p) = d \}$$
+Now we're going to prove an intermediate Lemma, which will show that if there is at least one primitive root, then there are exactly $\phi(p)$ primitive roots:
+\begin{lemma}
+For each $d|p-1$, we have either:
+$$\begin{cases}
+\#(\mb{C_d}) = 0\\
+\#(\mb{C_d}) = \phi(d)
+\end{cases}$$
+\end{lemma}
+\begin{proof}
+Suppose that for the divisor $d|p-1$ we have that $\mb{C_d} \neq \emptyset$.  Then we must show that $\#(\mb{C_d}) = \phi(d)$.
+
+This means that there is some $\ul{g}$ in $\mb{C_d}$, and the elements $\ul{1},\ul{g},\ul{g^2},\ldots,\ul{g^{d-1}}$ are all roots of the polynomial $x^d-1$.  These are all of the form $g^a$, and since $(g^a)^d = (g^d)^a \equiv 1 \mod p$, we see that $g^a$ is a root of $x^d-1$.\\
+So all the roots of $x^d-1$ are in this list: $\ul{1},\ul{g},\ul{g^2},\ldots,\ul{g^{d-1}}$\\
+So every element in  $\Z_{p}^*$ that has order $d$ must be in this list.\\
+\\
+A power $\ul{g^a}$ has order $d$ precisely when: $$\frac{d}{\gcd(a,d)}=d \text{ or } \gcd(a,d)=1$$
+And there are precisely $\phi(d)$ choices for $a$ with $0\leq a<d$.  $\therefore$ there are $\phi(d)$ elements in $\mb{C_d}$.\\
+\\
+Note that $\mb{C_d} \cap \mb{C_d'} = \emptyset$ for any pair of distinct divisors of $p-1$.  And every $u \in \Z^*$ must be in $\mb{C_d}$ for some $d|p-1$.
+$$\therefore \sum_{d|p-1}\#(\mb{C_d})=p-1$$
+On the other hand, $\#(\mb{C_d}) \leq \phi(d) \forall d|p-1$.  But we know that $\sum_{d|p-1}\phi(d)=p-1$
+$$\therefore \#(\mb{C_d}) = \phi(d) \quad \forall \quad d|p-1$$
+$$\therefore \#(\mb{C_{p-1}}) = \phi(p-1) > 0$$
+\end{proof}
+And in proving this lemma we get the proof of the primitive root theorem.  Q.E.D.
+\end{proof}
+\pagebreak
+\section{Cryptography}
+\subsection{What is Cryptography?}
+Cryptography is the art of writing or solving codes.  This is the encoding and decoding of messages to keep information secret.\footnote{https://www.merriam-webster.com/dictionary/cryptography}  Cryptography has been used for thousands of years,\footnote{https://learncryptography.com/classical-encryption/caesar-cipher} but this set of notes is rather too brief to go into a detailed history of the various encryption methods which have been used throughout the years.  Instead, we will focus on a small section of ciphers which are built upon the fundamentals of number theory that have been covered in the earlier parts of these pages. 
+\subsection{Why do we use Cryptography?}
+Cryptography is used to hide information.  There are many times when we would want to transmit information in such a way that only the intended recipient is able to read the information.  The existence of the cryptographic schemes described later in this section are the reason that we are able to buy goods on the Internet with our credit cards without (generally) worrying about our financial information being stolen.
+\subsection{Talking about Cryptography}
+Whenever someone is writing about Cryptography, the same cast of characters always appears.  Alice and Bob want to communicate with each other.  They want to be able to send messages to each other in such a way that no one is able to read the messages.  However, there is a third character: Eve.  Eve's goal is to listen in (or...eavesdrop!) on Alice and Bob's communications.  Each description of a cryptographic scheme is a method for Alice and Bob to prevent Eve from listening in on their conversation.
+\section{Diffie-Hellman Key Exchange}
+The Diffie-Hellman Key Exchange is a cryptographic scheme that allows for Bob and Alice to agree on a shared, secret key over a public channel which they can then use to encode their communications so that no one else can read them.
+\subsection{Method}
+\begin{itemize}
+\item A trusted party publishes a large prime $p$ and a unit $g \mod p$ with a very large order.
+\item Alice and Bob each choose random integers $a$ and $b$ modulo the order of $g$.
+\item Alice publishes $A = g^a \mod p$ and Bob publishes $B = g^b \mod p$.
+\item Alice computes $B^a \mod p$ and Bob computes $A^b \mod p$.  This is the common key.
+\end{itemize}
+Let's walk through the computation to demonstrate that Alice and Bob both end up with the same shared secret key.
+\begin{itemize}
+\item Alice's computation: $B^a \equiv (g^b)^a \equiv g^{ab} \mod p$
+\item Bob's computation: $A^b \equiv (g^a)^b \equiv g^{ab} \mod p$
+\end{itemize}
+So we can see that Alice and Bob do in fact end up with the same number for the shared secret key.
+\subsection{Eavesdropping}
+Suppose Eve was listening in on the conversation.  She was able to hear the large prime $p$, the unit $g$, and the numbers Alice and Bob have computed - $A$ and $B$ respectively.  However, there is no easy way for Eve to compute $A^b$ or $B^a$ without knowledge of $a$ or $b$.  This problem is called the Discrete Log problem.
+\subsection{Diffie-Hellman Example}
+\begin{ex}
+\begin{enumerate}
+\item A trusted party publishes a large prime 941089987 and a unit 48230119 with a large order.
+\item Alice chooses a random number $a=83729143$ and computes $g^a \mod p = 48230119^{83729143} \mod p = 9925483$
+\item So $A=9925483$
+\item Bob chooses a random number $b=702086117$ and computes $g^b \mod p = 48230119^{702086117} \mod p = 176248772$
+\item So $B=176248772$
+\item Now Alice publishes A, and Bob publishes B.
+\item So Alice computes $B^a \mod p$, which is $176248772^83729143 \mod p$ = 562558672
+\item And Bob computes $A^b \mod p$, which is $9925483^702086117 \mod p$ = 562558672
+\end{enumerate}
+So Alice and Bob have the same shared secret key.
+\end{ex}
+\section{Discrete logarithm}
+\begin{definition}
+Suppose $g$ is a unit in $\Z_n$.  The discrete log with respect to $g$ is defined as follows:
+$$\dlog_g(x)=
+\begin{cases}
+\min \{k:g^k\equiv x \mod n\} \quad \text{If this set is non-empty}\\
+undefined \qquad  \text{Otherwise}
+\end{cases}$$
+\end{definition}
+\underline{Remark}: If $g$ is a primitive root $\mod n$, then the domain of $\dlog_g$ is $\Z_{n}^*$
+\begin{ex}
+Suppose we are in $\Z_6$.  What is $\dlog_3(4)$?  This is the $y$ that satisfies the equation $3^y \equiv 4 \mod 7$.  For small values, we can just iterate through values of $y$ until we find the correct result.  In this case, we find that $3^4 \equiv 4 \mod 7$.  That is, $\dlog_3(4) = 4 \mod 6$.
+\end{ex}
+\underline{Remark}: $\dlog_g$ is a mapping from $\Z_{n}^* \mapsto \Z_{\phi(n)}$.
+When $g$ is a primitive root, the discrete log maps from the group of units in $\Z_{n}^*$ to $\Z_{\phi(n)}$.
+\subsection{Intractability}
+For large primes $p$ and typical primitive roots, the function $\dlog_g(x)$ is not computable in practical terms.  What this means is that there is no known \textit{efficient} method for finding the discrete logarithm.  In computer science, it is considered an open question as to if the discrete logarithm can be computed in polynomial time on a classical computer.  Unfortunately, a detailed discussion of P and NP is outside the scope of these notes.
+\subsection{Other notes}
+The discrete log behaves algebraically in much the same way as the natural log.
+Suppose we have $x \equiv g^a \mod n$ and $y \equiv g^b \mod n$ for some pair of integers $a,b$ with $0\leq a,b < d$.  Then:
+\begin{align*}
+\dlog_g(x) &= a \mod d \\
+\dlog_g(y) &= b \mod d \\
+x \cdot y &\equiv g^{a+b} \mod n \\
+\therefore \dlog_g(x \cdot y) &= (a + b) \mod d \\
+&= \dlog_g(x) + \dlog_g(y)
+\end{align*}
+So just like with the natural log, discrete log maps multiplication to division.
+
+The same happens with exponentiation.  If $k \geq 0$ is an integer, then:
+\begin{align*}
+x^k &\equiv (g^a)^k \mod n \\
+	&\equiv g^{ak} \mod n \\
+\therefore \dlog_g(x^k) &= (k \cdot a) \mod d \\
+&= k \cdot \dlog_g(x)
+\end{align*}
+And we see that exponentiation maps to multiplication.
+\section{ElGamal}
+The ElGamal cryptographic scheme is an example of what is called "public-key cryptography."
+\subsection{Objective}
+Alice wants to set up a system where anyone (e.g. Bob) can securely send her information over a public channel.\footnote{http://people.emich.edu/jramanath/docs/math409-592w17/cryptMeth01.pdf}
+\subsection{Method}
+\begin{itemize}
+\item A trusted agent publishes a prime $p$ and a unit $g \mod p$ with a large order.
+\item Alice choose an integer $a$ and publishes $A=g^a\mod p$.
+\item Bob wants to send $m \mod p$
+\item Bob randomly chooses an integer $k$ (an ephemeral key), modulo the order of $g$.
+\item Bob computes $A^k \mod p$.
+\item Bob sends the order pair $(c_1,c_2)$ where $c_1 \equiv m \cdot A^k \mod p$ and $c_2 \equiv g^k \mod p$.
+\item To decrypt, Alice computes $(c_2)^a \equiv (g^k)^a \equiv A^k \mod p$
+\item Since $(c_2)^a$ is a unit, Alice can compute $(c_{2}^a)^{-1}$
+\item $\therefore$ Alice can compute $c_1 \cdot (c_{2}^a)^{-1} \equiv m \cdot A^k \cdot A^{-k} \equiv m \mod p$.
+\end{itemize}
+\subsection{ElGamal Example}
+\begin{ex}
+\begin{enumerate}
+\item A trusted party publishes the prime $p=198769$ and a unit $g=203$.
+\item Alice chooses $a=105231$ and computes $A=g^a\mod p$ to publish $A=37580$
+\item Bob wants to send the message $m=72613$.  So he computes $(c_1,c_2)$ where $c_1 \equiv m \cdot A^k \mod p$ and $c_2 \equiv g^k \mod p$. $c_1 = 12566986684$ and $c_2 = 188222$.
+\item Alice computes the shared key $(c_2)^a = 173068$ and $(c_{2}^a)^{-1} = 63534$.
+\item Alice then decrypts the message by computing $c_1 \cdot (c_{2}^a)^{-1} = 12566986684 \cdot 63534 \mod p = 72613$.
+\end{enumerate}
+And Alice has successfully decrypted the message that Bob transmitted.
+\end{ex}
+\section{RSA Cryptosystem}
+The RSA Cryptosystem is a public-key encryption method first published by Ronald Rivest, Adi Shamir and Len Adlemen in 1977.\footnote{https://people.csail.mit.edu/rivest/Rsapaper.pdf}.  It relies on the idea that multiplying large numbers together is relatively easy, but factoring the product of large primes is difficult.
+\subsection{Objective}
+Alice wants to set up a system where anyone (\textit{e.g.} Bob) can securely send her information over a public channel.
+\subsection{Method}
+\begin{itemize}
+\item Alice chooses two secret primes, $p$ and $q$.
+\item She computes $N=p\cdot q$ and chooses $e$ such that $\gcd(e, (p-1)(q-1)) = 1$
+\item Alice then publishes $N, e$.
+\item Bob wants to send the message $m \mod N$ to Alice.  To do this, he encrypts the message by computing $c \equiv m^e \mod N$ and sends Alice $c$, the ciphertext.
+\item To decode Bob's message, Alice computes $d$ such that $e \cdot d \equiv 1 \mod (p-1)(q-1)$.
+\item Thus, the message $m$ is recovered by computing $m = c^d \mod N$.
+\end{itemize}
+\subsection{Factoring is intractable}
+In general, the only way for an adversary (let's call the adversary Ed this time) to find $(p-1)(q-1)$ is to factor $N$ and recover $p$ and $q$.  Ed can't decrypt the ciphertext $c$ unless he can compute $d$, and he can't compute $d$ without knowing $(p-1)(q-1)$.  Factoring is difficult in the same way that the Discrete Logarithm problem is difficult.  There is not currently a known algorithm which can factor any integer in polynomial time.  Because of this fact, RSA is secure in a vast number of cases.
+\subsection{RSA Example}
+\begin{ex}
+\begin{enumerate}
+\item Alice chooses $p=373587883$ and $q=776531401$, then calculates $N = 290102722182614083$ and $(p-1)(q-1)=290102721032494800$.
+\item Alice chooses $e=2038074743$, which is relatively prime to $(p-1)(q-1)$.
+\item Bob wants to send Alice the message $m = 85413055189023892$.  So he computes $c = m^e \mod N = 222227017932548197$.
+\item Alice has computed the decryption coefficient $d=125710201374708407$, where $125710201374708407 \cdot 2038074743 \equiv 1 \mod (p-1)(q-1)$
+\item Now, Alice can recover $m$ by calculating $c^d \mod N = 222227017932548197^125710201374708407 \mod N = 85413055189023892$
+\end{enumerate}
+Thus Alice has decrypted Bob's message successfully.
+\end{ex}
+\subsection{Proof of RSA Cryptosystem}
+\ul{Setting}\\
+We have $p,q$ which are two primes.\\
+Then we have $N = p \cdot q$ and there exists an $e$ such that $\gcd(e,(p-1)(q-1)) = 1$\\
+$d$ satisfies $ed \equiv 1 \mod(p-1)(q-1)$\\
+Let $m \mod N$ be a congruence class $\mod N$.  We write $c \equiv m^e \mod N$.\\
+And we claim that $c^d \equiv m \mod N$.\\
+It is enough to show that $$m^{ed} \equiv m \mod N$$
+\begin{proof}
+The proof is done by cases.\\
+\ul{Case} $m \mod N$ is a unit.  In this case, $\gcd(m,N) = 1$.  This is equivalent to $p \not | m$ and $q \not | m$.\\
+Note also that $ed \equiv 1 \mod(p-1)(q-1)$, which means that $\exists k \in \Z$ such that $ed = k(p-1)(q-1) + 1$.
+\begin{align*}
+m^{ed} & \equiv m^{k(p-1)(q-1) + 1} &(\text{We're looking at $m^{ed}$ in $\mod p$})\\
+m^{ed} & \equiv m^{k(p-1)(q-1)} \cdot m \\
+m^{ed} & \equiv (m^{(p-1)})^{k(q-1)} \cdot m \\
+m^{ed} & \equiv (1)^{k(q-1)} \cdot m \mod p &(\text{by Fermat's Little Theorem})
+\end{align*}
+The same technique shows that $m^{ed} \equiv m \mod q$.  Thus, $m^{ed}$ solves the system: 
+$$\begin{cases}
+x \equiv m \mod p\\
+x \equiv m \mod q
+\end{cases}$$
+But, so does $m$.  $\therefore$ $m^{ed} \equiv m \mod p \cdot q$, because $p \cdot q = N$ and the Chinese Remainder Theorem guarantees uniqueness $\mod N$.\\
+\ul{Case} $m = 0...$ is trivial, because everything is 0.\\
+\ul{Case} $p|m$ and $q \not |m$\\
+\begin{align*}
+m^{ed} &\equiv 0^{ed} = 0 \mod p &(\text{because $p|m$})\\
+m^{ed} & \equiv m^{k(p-1)(q-1) + 1} &(\text{Here we're in $\mod q$})\\
+m^{ed} & \equiv m^{k(p-1)(q-1)} \cdot m \\
+m^{ed} & \equiv (m^{(q-1)})^{k(p-1)} \cdot m \\
+m^{ed} & \equiv m \mod q &(\text{By Fermat's Little Theorem})
+\end{align*}
+So this shows that $m^{ed}$ satisfies the system: 
+$$\begin{cases}
+x \equiv 0 \mod p\\
+x \equiv m \mod q
+\end{cases}$$
+So $x = m$ also solves this, $\therefore m^{ed} \equiv m \mod N$.\\
+\ul{Case} $p \not |m$ and $q|m$ proceeds the same as the above case, just with $p$ and $q$ switched.\\
+\end{proof}
+So we have shown that the RSA cryptosystem makes sense using the number theory framework we have been working in.
+\section{Shank's Algorithm}
+Also sometimes referred to as the "big-step, little-step algorithm".
+\subsection{Method to solve discrete logs}
+Shank's Algorithm is a faster method for computing discrete logarithms than simply brute-forcing the result.  The brute force method for computing $\dlog_g(x)$ is the method for finding a $y$ such that $g^y \equiv x \mod p$ where we list all of the powers of $g \mod p$ until we find the $x$ we are looking for.  We could also store all the powers of $g \mod p$ in a dictionary/look-up table so that we would only have to calculate the list once, but that would still take a huge amount of time and memory.  In Big-O notation, we would say that the brute-force method takes $\bigoh(p)$ steps in time and $\bigoh(p)$ amount of memory.
+\subsection{Algorithm description}
+Let $g$ be a unit modulo $n$ with order $d$.  Shank's algorithm is a method to find solutions $y$ to the equation $$g^y \equiv x \mod n$$ The complexity of this method if $\bigoh(d)$.  If such a $y$ is found, then $y = \dlog_g(x)$.
+\begin{enumerate}
+\item Set $\sigma = \lceil \sqrt{n} \rceil$.  Note that every integer $y$ with $0 \leq y < n$ has a unique representation of the form $y = i\sigma + j$ (from the division algorithm).  Where $i,j \in \Z$ and $0\leq i,j < \sigma$.
+\item To solve $g^y \equiv x \mod n$, it is enough to find $i$ and $j$ with $0\leq i,j < \sigma$ and $$g^{i\sigma + j} \equiv x \mod n$$
+This is equivalent to $$g^j \equiv x \cdot g^{-i\sigma} \mod n$$
+And note that $g^{-i\sigma} \equiv (g^{-\sigma})^i \mod n$
+\item It is sufficient to generate the two lists in $\Z_n$:
+$$x, xg^{-\sigma}, x(g^{-\sigma})^2, \ldots, x(g^{-\sigma})^{\sigma -1}$$
+and
+$$1,g,g^2,\ldots,g^{\sigma - 1}$$
+and find a matching elements between the two sets.
+\end{enumerate}
+This is Shank's algorithm.  It requires $\bigoh(\sqrt{n})$ memory.  If this is implemented using dictionaries (association lists), then the execution time is also $\bigoh(\sqrt{n})$.
+\subsection{Shank's Algorithm Example}
+\begin{ex}
+We want to find $\dlog_8(79)$ in $\Z_101$.  That is, we want to find $y$ such that $8^y \equiv 79 \mod 101$
+\begin{enumerate}
+\item We set $y = 10q + r$
+\item Then we use Bezout's Theorem to find $8^{-1} \mod 101 = 38$
+\item Next, we generate our dictionary of $79 \cdot 38^{-10  \cdot q} \mod 101$ for $0 \leq q \leq 10$
+\item Now we compute $q^r$, for $0 \leq q < 10$, and when $q^r$ is in our dictionary, we have found q.
+\item Performing the calculations we find that $q = 8, r = 8$ and $y = 88$.
+\item we verify that $8^{88} \mod 101 = 79$.
+\end{enumerate}
+\end{ex}
+\section{Pohlig-Hellman Theorem}
+\subsection{Method for solving discrete logs}
+Let $n$ be a positive integer, and $g$ a unit modulo $n$ of order $d$. Consider the problem of finding, for a given $x \mod n$, and integer $y$ such that $$G6y \equiv x \mod n$$
+Note that any solution $y$ is only determined up to integral shifts by $d$.  Hence only the congruence class of $y \mod d$ matters.\\
+Pohlig-Hellman's result is a method for reducing the computation of discrete logarithm $\mod n$ to the computation of many discrete logarithms - one for each prime factor of $d$.  
+\subsection{Brief notation interlude}
+Let's introduce some notation to help us describe the method.  Let $$d = q_1^{k_1}q_2^{k_2}\ldots q_l^{k_l}$$
+be the prime factorization of $d$.  Also, for each $i = 1,\ldots,l$ write $$d_i = \frac{d}{q_i^{k_i}}$$
+Finally, set $$g_i \equiv g^{d_i} \mod n \quad i = 1,\ldots,l$$
+and $$x_i \equiv x^{d_i} \mod n \quad i = 1,\ldots,l$$
+\subsection{Method for reducing computation by prime factors of d}
+Pohlig and Hellman's method is a way to splice together solutions $y_i$ of the equations
+$$g_i^{y_i} \equiv x_i \mod n \quad i = 1,\ldots l$$
+Because $g_i$ has order $q_i^{k_i}$, the only $y_i$ are determined modulo $q_i^{k_i}$.\\
+Since the $q_i^{k_i}$ are pairwise relatively prime, the congruences
+$$y \equiv y_i \mod q_i^{k_i} \quad i = 1,\ldots l$$
+have a simultaneous solution that is unique modulo $\prod_{i=1}^{l}q_i^{k_i}$, which is just $d$.  (by the Chinese Remainder Theorem).  And this $y$ solves the original discrete logarithm problem.
+\subsection{Pohlig-Hellman Example}
+As this is a relatively complicated algorithm, let's do an example before we dive into the proof.
+\begin{ex}
+Let $p = 10337$, $p$ is prime and let $N = p-1 = 10336 = 32 \cdot 17 \cdot 19$.  $g = 51$ is a primitive root $\mod p$.  We will use the Pohlig-Hellman algorithm to find $y = \dlog_g(5912)$.  That is, we want to find $y$ such that $$g^y = 5912 \mod p$$
+This is equivalent to solving the series of equations:
+\begin{align*}
+\text{a)}\quad(g^{N/32})^y &\equiv (5912)^{N/32} \equiv 7510 \mod p \\
+\text{b)}\quad(g^{N/17})^y &\equiv (5912)^{N/17} \equiv 8449 \mod p \\
+\text{c)}\quad(g^{N/19})^y &\equiv (5912)^{N/19} \equiv 1617 \mod p
+\end{align*}
+Next, we use Shank's algorithm to solve for $y$ in each of the above equations
+\begin{align*}
+\text{a)}\quad y \equiv 9385 \mod 32 \\
+\text{b)}\quad y \equiv 10311 \mod 17 \\
+\text{c)}\quad y \equiv 9588 \mod 19
+\end{align*}
+Now we use the Chinese Remainder Theorem to reassemble the original $y$ that we need.
+\begin{equation*}
+\begin{rcases}
+  y &\equiv 9385 \mod 32 \\
+  y &\equiv 10311 \mod 17
+\end{rcases}
+y \equiv 9 \mod 544
+\end{equation*}\\
+\begin{equation*}
+\begin{rcases}
+  y &\equiv 9 \mod 544 \\
+  y &\equiv 9588 \mod 19
+\end{rcases}
+y \equiv 2729 \mod 10336
+\end{equation*}
+And we see that $51^{2729} \equiv 5912 \mod 10337$, which is what we were looking for.
+\end{ex}
+\subsection{Proof of Pohlig-Hellman}
+To prove Pohlig-Hellman, first we need a Lemma to assist with some of our algebra:
+\subsubsection{Lemma - Expanded Bezout's Theorem}
+\begin{lemma}
+Suppose $N_1,\ldots,N_l$ are positive integers whose gcd is 1.  Then, there are integers $c_1,\ldots,c_l$ such that $$c_1N_1 + c_2N_2 + \ldots + c_lN_l = 1$$
+\end{lemma}
+\begin{proof}
+Set $\mi{S}^+ = \{\sum_{i=1}^{l}c_iN_i:c_i\in\Z \quad \& \quad \sum_{i=1}^{l}c_iN_i > 0\}$\\
+Note that $\mi{S}^+$ is not empty.  By the least integer principle, $\mi{S}^+$ contains a minimal element $m$.
+\\
+We claim that $m|N_i$ for $i = 1,\ldots,l$.\\
+\\
+Indeed, suppose (to the contrary), that $m \not N_j$ for some particular $j$.  By the division algorithm, $$N_j = qm + r \quad 0 < r < m$$
+So: $r = N_j - qm$.  But $m \in \mi{S}^+$ and hence $m = \sum_{i=1}^{l}a_iN_i$ for some $a_1,\ldots,a_l \in \Z$.  This implies that $$r = N_j - \sum_{i=1}^{l}a_iN_i$$, and $r$ is an integer linear combination of $N_1,\ldots,N_l$.  Since $r>0, r \in \mi{S}^+$.  Moreover, $r < m$, \ul{contradicting} the minimality of $m$.
+
+This means that $m$ is a positive common divisor of the $N_i$.\\
+
+$\therefore m = 1$.  Since $ m \in \mi{S}^+$, 1 can be expressed as an integer linear combination of $N_1,\ldots,N_l$.
+\end{proof}
+\pagebreak
+\subsubsection{Proof of Pohlig-Hellman}
+\begin{proof}
+Suppose $p$ is a prime and $g$ is a primitive root.  Let $p-1 = q_1^{k_1}q_2^{k_2}\ldots q_l^{k_l}$ be the unique prime factorization of $p-1$.
+\begin{itemize}
+\item Set $N_i = \frac{p-1}{\ul{q_i}^{k_i}}$ for $i = 1,\ldots,l$
+\item $g_i \equiv g^{N_i} \mod p $
+\item $x_i \equiv x^{N_i} \mod p $
+\end{itemize}
+Consider the problem of finding, for a given $x \mod p$ a $y$ such that: $$g^y \equiv x \mod p$$
+We regard $y$ as an integer $\mod p-1$.\\
+Suppose for each $i=1,\ldots,l$, the integer $y_i$ solves: $$g_i^{y_i} \equiv x_i \mod p$$
+What is $\ord(g_i)$?  Recall that $g_i=g^{(\frac{p-1}{q_i^{k_i}})}$, and $(g^{(\frac{p-1}{q_i^{k_i}})})^{q_i^{k_i}} \equiv 1 \mod p$. So $\ord(g_i)=q_i^{k_i}$, and hence $y_i$ is an integer modulo $q_i^{k_i}$.  By the Chinese Remainder Theorem, there is an integer $y$ such that: $$y \equiv y_i \mod q_i^{k_i} \quad i = 1,\ldots,l$$
+and $y$ is unique modulo $q_1^{k_1}q_2^{k_2}\ldots q_l^{k_l} = p-1$.\\
+\\
+We know check that $y$ solves the original discrete log problem.  So we write:
+\begin{align*}
+g^y &\equiv g^{y \cdot 1} \mod p \\
+&\equiv g^{y \cdot \sum_{i=1}^{l}c_iN_i} &(\text{Since $1 = \sum_{i=1}^{l}c_iN_i$ })
+\end{align*}
+Now, recall that $N_i = \frac{p-1}{q_i^{k_i}}$.  If $\gcd(N_1,\ldots,N_l) > 1$, then there exists a prime $q|N_i, i = 1,\ldots,l$ and $N_i|N$ for $i = 1,\ldots,l$. $\therefore q|N \quad \therefore \ul{q}=q_j$ for some $j$.
+\textbf{But!} We know that $\ul{q}=q_j \not | N_j$, since we already factored $q$ out of the $N_i$, and we have a \ul{contradiction}.  $\therefore \gcd(N_1,\ldots,N_l) = 1$.  So, back to $ g^{y \cdot \sum_{i=1}^{l}c_iN_i}$.\\
+\begin{align*}
+&\text{These operations are all being performed $\mod p$}&\\
+g^{y \cdot \sum_{i=1}^{l}c_iN_i} & \equiv  g^{\sum_{i=1}^{l}c_iN_i \cdot y} &&(\text{bringing $y$ into the summation})\\
+&\equiv \prod_{i=1}^{l}g^{c_iN_i \cdot y} &&(\text{Converting the sum to a product})\\
+&\equiv \prod_{i=1}^{l}(g^{N_i}){c_i \cdot y}\\
+&\equiv \prod_{i=1}^{l}(g_i)^{c_i \cdot y} &&(\text{From the definition of $g_i$})\\
+&\equiv \prod_{i=1}^{l}(g_i^y)^{c_i} \equiv \prod_{i=1}^{l}(g_i^{y_i})^{c_i} &&(\text{definition of $y_i$})\\
+&\equiv \prod_{i=1}^{l}(x_i)^{c_i} \equiv \prod_{i=1}^{l}(x_i^{N_i})^{c_i} &&(\text{definition of $x_i$ and $N_i$})\\
+&\equiv \prod_{i=1}^{l}(x_i)^{N_ic_i} \equiv x^{\sum_{i=1}^{l}c_iN_i} &&(\text{Switch back to sum}\\
+&\equiv x &&(\text{Because $\sum_{i=1}^{l}c_iN_i = 1$})
+\end{align*}
+So we can see that we can in fact stitch together all of the $y_i$ to retrieve the original $y$ which gives us the $x$ we are looking for when the order of the prime modulus $p$ factors easily into small factors.
+
+\ul{Moral}: We should avoid cryptographic schemes depending on a discrete log mod $p$ where $p-1$ (the order of a primitive root in $p$) factors into a product of small prime powers.  \textit{i.e.} where all $q_i^{k_i}$ are small.
+\end{proof}
+\section{Sophie Germain primes}
+\subsection{Pair of primes ...}
+\begin{definition}
+A pair of primes $q$ and $p$ with $q<p$ are called \textit{Sophie Germain} primes if $p = 2 \cdot q + 1$.
+\end{definition}
+\subsection{Theorem - primitive roots of Sophi Germain primes ...}
+\begin{theorem}
+Let $q<p$ be a pair of Sophie Germain primes.  A unit $a \mod p$ is a primitive root modulo $p$ if $a \not \equiv -1 \mod p$ and $a^q \equiv -1 \mod p$
+\end{theorem}
+\begin{proof}
+We examine the questions - what are the possible orders of elements in $\Z_p^*$?  Since $\phi(p) = 2q$, the possible orders are $1, 2, q, 2q$, since these are the divisors of $2q$.
+
+Fermat's Little Theorem tells us that each element of $\Z_p^*$ is a root to the equation $$x^{p-1}-1 = x^{2q}-1$$
+Note: $x^{2q}-1 = (x^q)^2-1 = (x^q-1)(x^q+1)$\\
+Any element of order 1 or 2 must be a root of $x^2-1 = (x+1)(x-1)$. $\therefore x = \pm 1$ is the only element of order 1, and $x=-1$ is the only element of order 2.\\
+Next, any element of order $q$ must be a root of: 
+$$x^q-1 = (x-1) \cdot(x^{q-1}+x^{q-2}+\ldots+1)$$
+So:
+\begin{itemize}
+\item -1 is a root of $x^q+1$, hence it can't be a root of $x^q-1$.
+\item +1 is a root of $x-1$, hence it cannot be a root of $x^{q-1}+x^{q-2}+\ldots+1$
+\item No primitive root can be a root of $x^q-1$ since the first positive power of a primitive root that yields 1 is $2q$.
+\item $\therefore$ the roots of $x^{q-1}+x^{q-2}+\ldots+1$ coincide with the elements of $\Z_p^*$ of order $q$.
+\end{itemize}
+$\therefore$ every primitive root of $\Z_p^*$ must be a root of $x^q+1$.\\
+\\
+Because $q$ is odd, we have:
+\begin{align*}
+x^{2q}-1 =& (x^q+1)(x^q-1)\\
+=& (x-1)(x^{q-1}+x^{q-2}+\ldots+1)(x+1)(x^{q-1}-x^{q-2}+x^{q-3}-\ldots+1)\\
+\end{align*}
+$\therefore$ the roots of $x^{q-1}-x^{q-2}+x^{q-3}-\ldots+1$ are the set of primitive roots.\\
+$\therefore$ when $a$ is an element of $\Z_p^*$ such that $a \not \equiv -1 \mod p$ and $a^q \equiv -1 \mod p$, then $a$ is a primitive root.
+\end{proof}
+\section{Miller-Rabin test}
+The Miller-Rabin test is a more robust test for "pseudoprimality" than the Fermat pseudoprime test.
+\subsection{Pseudoprimality test}
+In general, when testing if a particular number $a$ is pseudoprime with respect to a range of other numbers, the more numbers we can find that $a$ is pseudoprime to, the higher the likelihood that $a$ is actually prime.
+\subsection{Fermat's pseudoprimes}
+A positive integer $n$ is a Fermat pseudoprime with respect to $a \in \Z$ if $a^n \equiv a \mod n$.  Note that if $n$ is prime, it is pseudoprime relative to every integer $a \in \Z$.  If this fails for a particular integer $a$, then $n$ must be composite.  In this case, $a$ is said to be a (Fermat) witness for the compositeness of $n$.
+
+However, there are integers which are composite yet always pass Fermat's pseudoprimality test.  These numbers are known as Carmichael numbers.
+\begin{definition}
+A composite integer $n>1$ is a Carmichael number if there is an $a \in \Z$ such that $a$ is a unit $\mod n$ and $a^n \equiv a \mod n$.
+\end{definition}
+\begin{remark}
+Such numbers exist!  The first one is n = 561.  There are infinitely many such numbers, which was proved in 1994 by Alford, Granville and Pomerance.\footnote{https://math.dartmouth.edu/~carlp/PDF/paper95.pdf}
+\end{remark}
+\subsection{Miller-Rabin pseudoprimality test}
+Let $n$ be an odd integer with $n>1$.  The integer $n-1$ may be expressed uniquely as: $$n-1 = 2^lm$$ Where $m$ is odd.
+
+Let $a$ be an integer with $\gcd(a,n)=1$.  The integer $n$ is a (Miller-Rabin) pseudoprime with respect to $a$ if the list:
+$$a^m \mod n, a^{2m} \mod n,a^{4m} \mod n,\ldots,a^{2^lm} \mod n$$
+has exactly one of the following properties:
+\begin{itemize}
+\item The list consists entirely of 1's
+\item It has -1 somewhere before the last entry
+\end{itemize}
+\subsection{Thm - every prime p is a Miller-Rabin pseudoprime with respect to any a not divisible by p}
+\begin{proof}
+Let $n = p$, and odd prime, and $a \in \Z$ with $p \not | a$.\\
+Recall: $p-1 = 2^lm$ where $l \geq1$ and $m$ is odd.\\
+Consider the list:
+$$\ul{a}^m,\ul{a}^{2m},\ul{a}^{4m},\ldots,\ul{a}^{2^lm}$$
+Note that $\ul{a}^{2^lm} = a^{p-1} = 1 \mod p$\\
+Write $k$ for the smallest integer with $0 \leq k \leq l$ and $\ul{a}^{2^km} = 1 \mod p$\\
+If $k=0$, we are in the first case, since each subsequent entry in the list is the square of its predecessor, and the entire list is 1's.  If $k>0$, note that $1=\ul{a}^{2^km}=(\ul{a}^{2^{k-1}m})^2$.  So
+$$\ul{a}^{2^{k-1}m} = \pm 1 \mod p$$
+But
+$$\ul{a}^{2^{k-1}m} \neq +1 \mod p$$
+Because of the definition of k as the minimal exponent that equals 1.
+$$\therefore \ul{a}^{2^{k-1}m} = -1 \mod p$$
+Since $\ul{a}^{2^{k-1}m}$ is in the list, we are in the second case, where -1 occurs somewhere before the last entry in the list.
+\end{proof}
+\begin{remark}
+If $n$ fails the Miller-Rabin test for $a\in\Z$, then $a$ is said to be a (Miller-Rabin) witness for the compositeness of $n$.  It is known that a composite $n$ (which is large) has approximately $0.75 \cdot n$ witnesses in $\Z_n^*$.
+\end{remark}
+\subsection{Heuristic Argument for Primality}
+We make the assumption that the events:
+\begin{itemize}
+\item $a$ is a witness for $n$ and
+\item $b$ is a witness for $n$
+\end{itemize}
+Are independent if $a \not \equiv b \mod n$.  That is, if $a$ and $b$ are different congruence classes $\mod n$.
+
+Suppose $n$ is composite and we have found that $a_1,\ldots,a_l$ are distinct $\mod n$ and none are witnesses for the compositeness of $n$.  Then a rough estimate for the probability of this is:
+$$\Pr(a_1,\ldots,a_l \text{ are not witnesses } | \text{ n is composite }) = 0.25^l$$
+We can see that the probability of a number being composite gets very small very quickly as subsequent tests fail.  In fact, if five $a$ are chosen at random and none are witnesses, then the probability that $n$ is composite would be $0.25^5 = 0.00097$.  However, this isn't deductive reasoning.  It's seat-of-the-pants, plausible, engineering style reasoning.  Which is basically the definition of a Heuristic!
+\pagebreak
+Appendix - Number Theory Algorithms written by Dr. J. Ramanathan in Python for Math 592
+\appendix
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        
+        \PY{l+s+sd}{Number Theory Routines}
+        \PY{l+s+sd}{(written in python3)}
+        
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k+kn}{from} \PY{n+nn}{math} \PY{k}{import} \PY{n}{sqrt}\PY{p}{,} \PY{n}{floor}
+        \PY{k+kn}{from} \PY{n+nn}{fractions} \PY{k}{import} \PY{n}{gcd}
+        \PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{import} \PY{o}{*}
+        
+        \PY{c+c1}{\PYZsh{} Fast version of the sieve that only filters multiples of}
+        \PY{c+c1}{\PYZsh{} primes up to sqrt(n).}
+        
+        \PY{k}{def} \PY{n+nf}{fastErat}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Fast version of the sieve of Eratosthenes. Only multiple }
+        \PY{l+s+sd}{        of primes up to sqrt of n are filtered.\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{n}{primes} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                \PY{k}{if} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{return}\PY{p}{(}\PY{n}{primes}\PY{p}{)}
+                \PY{n}{testbnd} \PY{o}{=} \PY{n}{sqrt}\PY{p}{(}\PY{n}{n} \PY{o}{+} \PY{l+m+mf}{0.000001}\PY{p}{)}
+                \PY{n}{nxtpr} \PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{lst} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{n}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+                \PY{k}{while} \PY{p}{(}\PY{n}{lst} \PY{o}{!=} \PY{p}{[}\PY{p}{]}\PY{p}{)} \PY{o+ow}{and} \PY{p}{(}\PY{n}{nxtpr} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{testbnd}\PY{p}{)} \PY{p}{:}
+                        \PY{n}{nxtpr} \PY{o}{=} \PY{n}{lst}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                        \PY{n}{primes}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{nxtpr}\PY{p}{)}
+                        \PY{n}{lst} \PY{o}{=} \PY{p}{[}\PY{n}{x} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{lst} \PY{k}{if} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZpc{}}\PY{k}{nxtpr}) != 0]
+                \PY{k}{return}\PY{p}{(}\PY{n}{primes}\PY{o}{+}\PY{n}{lst}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Fast exponentiation mod p}
+        
+        \PY{k}{def} \PY{n+nf}{modp}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Fast modular exponentiation: computes x**y mod n\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{n}{acc}\PY{p}{,} \PY{n}{s}\PY{p}{,} \PY{n}{t} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{y}
+                \PY{k}{while} \PY{n}{t} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+                        \PY{k}{if} \PY{p}{(}\PY{n}{t} \PY{o}{\PYZam{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:} \PY{n}{acc} \PY{o}{=} \PY{p}{(}\PY{n}{s}\PY{o}{*}\PY{n}{acc}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}
+                        \PY{n}{t} \PY{o}{=} \PY{n}{t} \PY{o}{\PYZgt{}\PYZgt{}} \PY{l+m+mi}{1}
+                        \PY{n}{s} \PY{o}{=} \PY{p}{(}\PY{n}{s}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}
+                \PY{k}{return}\PY{p}{(}\PY{n}{acc}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Bezout\PYZsq{}s theorem}
+        
+        \PY{k}{def} \PY{n+nf}{bezout}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Computes the linear combination of a and b that}
+        \PY{l+s+sd}{        yields the gcd.\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{k}{if} \PY{n}{a}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mi}{0} \PY{o+ow}{or} \PY{n}{b}\PY{o}{\PYZlt{}}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{:} \PY{k}{return}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} a and b must be positive}
+                \PY{n}{m00}\PY{p}{,}\PY{n}{m01} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}
+                \PY{n}{m10}\PY{p}{,}\PY{n}{m11} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}
+                \PY{n}{r0}\PY{p}{,}\PY{n}{r1} \PY{o}{=} \PY{n}{a}\PY{p}{,}\PY{n}{b}
+                \PY{k}{while} \PY{n}{r1} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+                        \PY{n}{q}\PY{p}{,} \PY{n}{rnext} \PY{o}{=} \PY{n}{r0}\PY{o}{/}\PY{o}{/}\PY{n}{r1}\PY{p}{,} \PY{n}{r0}\PY{o}{\PYZpc{}}\PY{k}{r1}
+                        \PY{n}{m00}\PY{p}{,}\PY{n}{m10} \PY{o}{=} \PY{n}{m10}\PY{p}{,}\PY{n}{m00}\PY{o}{\PYZhy{}}\PY{n}{q}\PY{o}{*}\PY{n}{m10}
+                        \PY{n}{m01}\PY{p}{,}\PY{n}{m11} \PY{o}{=} \PY{n}{m11}\PY{p}{,}\PY{n}{m01}\PY{o}{\PYZhy{}}\PY{n}{q}\PY{o}{*}\PY{n}{m11}
+                        \PY{n}{r0}\PY{p}{,}\PY{n}{r1} \PY{o}{=} \PY{n}{r1}\PY{p}{,}\PY{n}{rnext}
+                \PY{k}{return}\PY{p}{(}\PY{n}{r0}\PY{p}{,}\PY{n}{m00}\PY{p}{,}\PY{n}{m01}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Direct test for primality}
+        
+        \PY{k}{def} \PY{n+nf}{isPrime}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Tests for primality by looking for a prime factor }
+        \PY{l+s+sd}{        less than sqrt(n).\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{n}{sqn} \PY{o}{=} \PY{n}{floor}\PY{p}{(}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+                \PY{n}{smP} \PY{o}{=} \PY{n+nb}{iter}\PY{p}{(}\PY{n}{fastErat}\PY{p}{(}\PY{n}{sqn}\PY{p}{)}\PY{p}{)}
+                \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{smP}\PY{p}{:}
+                    \PY{k}{if} \PY{n}{n}\PY{o}{\PYZpc{}}\PY{k}{p} == 0: 
+                        \PY{k}{return}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+                \PY{k}{return}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} A simple factorization algorithm}
+        
+        \PY{k}{def} \PY{n+nf}{simpleFac}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+                \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Computes the factorization of n.\PYZdq{}\PYZdq{}\PYZdq{}}
+                \PY{n}{sqn} \PY{o}{=} \PY{n}{floor}\PY{p}{(}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}
+                \PY{n}{res} \PY{o}{=} \PY{n}{n}
+                \PY{n}{fac} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+                \PY{n}{smP} \PY{o}{=} \PY{n}{fastErat}\PY{p}{(}\PY{n}{sqn}\PY{p}{)}
+                \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{smP}\PY{p}{:}
+                    \PY{k}{while} \PY{n}{res}\PY{o}{\PYZpc{}}\PY{k}{p} == 0:
+                        \PY{k}{if} \PY{n}{p} \PY{o+ow}{in} \PY{n}{fac}\PY{p}{:} \PY{n}{fac}\PY{p}{[}\PY{n}{p}\PY{p}{]} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                        \PY{k}{else}\PY{p}{:} \PY{n}{fac}\PY{p}{[}\PY{n}{p}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+                        \PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{o}{/}\PY{o}{/}\PY{n}{p}
+                \PY{k}{if} \PY{n}{res} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+                    \PY{n}{fac}\PY{p}{[}\PY{n}{res}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+                \PY{k}{return}\PY{p}{(}\PY{n}{fac}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Checks for Fermat pseudo\PYZhy{}primality}
+        
+        \PY{k}{def} \PY{n+nf}{pseudoPrime}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{n}{a}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Is n a Fermat pseudoprime relative to a.\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{k}{if} \PY{p}{(}\PY{p}{(}\PY{n}{modp}\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{n}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{a}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n} == 0):
+                \PY{k}{return}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+            \PY{k}{else}\PY{p}{:}
+                \PY{k}{return}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Order of a unit}
+        
+        \PY{k}{def} \PY{n+nf}{order}\PY{p}{(}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Computes the order of a unit g modula n.\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{k}{if} \PY{n}{gcd}\PY{p}{(}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+                \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g is not relavtively prime to n.}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{a} \PY{o}{=} \PY{n}{g}\PY{o}{\PYZpc{}}\PY{k}{n}
+            \PY{k}{while} \PY{n}{a} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+                \PY{n}{k} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{a} \PY{o}{=} \PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{g}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}
+            \PY{k}{return}\PY{p}{(}\PY{n}{k}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Powers of a unit}
+        
+        \PY{k}{def} \PY{n+nf}{orbit}\PY{p}{(}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Returns the cycle generated by a unit  modulo n.\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{k}{if} \PY{n}{gcd}\PY{p}{(}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+                \PY{k}{return} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g is not relavtively prime to n.}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{val} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{n}{a} \PY{o}{=} \PY{n}{g}
+            \PY{k}{while} \PY{n}{a} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+                \PY{n}{val}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+                \PY{n}{k} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                \PY{n}{a} \PY{o}{=} \PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{g}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}
+            \PY{k}{return}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Computes the units}
+        
+        \PY{k}{def} \PY{n+nf}{units}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{k}{return}\PY{p}{(} \PY{p}{[}\PY{n}{k} \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{k}{if} \PY{n}{gcd}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{n}\PY{p}{)} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Tiotient function}
+        
+        \PY{k}{def} \PY{n+nf}{tiotient}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{:} 
+            \PY{k}{return}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{units}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Shank\PYZsq{}s Discrete Logarithm Algorithm}
+        
+        \PY{k}{def} \PY{n+nf}{dlog}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{:}
+            \PY{p}{(}\PY{n}{d}\PY{p}{,}\PY{n}{ginv}\PY{p}{,}\PY{n}{y}\PY{p}{)} \PY{o}{=} \PY{n}{bezout}\PY{p}{(}\PY{n}{g}\PY{p}{,}\PY{n}{n}\PY{p}{)}
+            \PY{k}{if} \PY{n}{d} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:} \PY{k}{return}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{sqn} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sqrt}\PY{p}{(}\PY{n}{n}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{A} \PY{o}{=} \PY{n}{modp}\PY{p}{(}\PY{n}{ginv}\PY{p}{,}\PY{n}{sqn}\PY{p}{,}\PY{n}{n}\PY{p}{)}
+            \PY{n}{steps} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{n}{modp}\PY{p}{(}\PY{n}{A}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{n}\PY{p}{)}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}:i for i in range(0,sqn)\PYZcb{}
+            \PY{n}{j}\PY{p}{,}\PY{n}{lhs}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}
+            \PY{k}{while} \PY{o+ow}{not} \PY{n}{lhs} \PY{o+ow}{in} \PY{n}{steps}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)} \PY{o+ow}{and} \PY{n}{j} \PY{o}{\PYZlt{}} \PY{n}{sqn}\PY{p}{:}
+                \PY{n}{j}\PY{p}{,}\PY{n}{lhs} \PY{o}{=} \PY{n}{j}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{(}\PY{n}{lhs}\PY{o}{*}\PY{n}{g}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{n}
+            \PY{k}{if} \PY{n}{j} \PY{o}{==} \PY{n}{sqn}\PY{p}{:} \PY{k}{return}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return}\PY{p}{(}\PY{p}{(}\PY{n}{steps}\PY{p}{[}\PY{n}{lhs}\PY{p}{]}\PY{o}{*}\PY{n}{sqn}\PY{o}{+}\PY{n}{j}\PY{p}{)}\PY{o}{\PYZpc{}}\PY{k}{tiotient}(n))
+\end{Verbatim}
+\end{document}
+    
